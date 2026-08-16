@@ -34,6 +34,12 @@ export default function MagneticButton({
     setPosition({ x: 0, y: 0 });
   };
 
+  const triggerHaptic = () => {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(10);
+    }
+  };
+
   const baseStyles = "relative inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full outline-none group overflow-hidden";
   
   const variants = {
@@ -47,7 +53,9 @@ export default function MagneticButton({
       ref={ref}
       onMouseMove={handleMouse}
       onMouseLeave={reset}
+      onTapStart={triggerHaptic}
       animate={{ x: position.x, y: position.y }}
+      whileTap={{ scale: 0.95 }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
       className="inline-block"
     >

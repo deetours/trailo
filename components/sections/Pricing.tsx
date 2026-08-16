@@ -60,11 +60,11 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="flex flex-row md:grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto overflow-x-auto md:overflow-x-visible snap-x snap-mandatory pb-8 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {tiers.map((tier) => (
             <div 
               key={tier.name}
-              className={`relative p-8 rounded-2xl flex flex-col ${
+              className={`relative p-8 rounded-2xl flex flex-col w-[85vw] md:w-auto shrink-0 snap-center ${
                 tier.highlighted 
                   ? 'bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] border border-[#333] shadow-[0_0_40px_rgba(42,138,246,0.05)] ring-1 ring-[#2A8AF6]/20' 
                   : 'bg-[#111] border border-[#222]'

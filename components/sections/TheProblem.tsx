@@ -16,7 +16,8 @@ export default function TheProblem() {
   useGSAP(() => {
     let mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
+    // Default: Full motion
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -42,7 +43,8 @@ export default function TheProblem() {
       };
     });
 
-    mm.add("(max-width: 767px)", () => {
+    // Fallback: Reduced motion
+    mm.add("(prefers-reduced-motion: reduce)", () => {
       gsap.set([text1Ref.current, text2Ref.current, text3Ref.current], { autoAlpha: 0, y: 30, position: 'relative', top: 'auto', left: 'auto', transform: 'none', marginBottom: '2rem' });
       
       const elements = [text1Ref.current, text2Ref.current, text3Ref.current];
@@ -62,11 +64,11 @@ export default function TheProblem() {
   }, { scope: containerRef });
 
   return (
-    <section id="problem" ref={containerRef} className="w-full bg-[#050505] relative md:h-[400vh]">
-      <div className="w-full md:sticky md:top-0 md:h-screen flex items-center justify-center relative py-24 md:py-0 overflow-hidden">
-        <div className="container mx-auto px-6 relative h-full flex flex-col md:flex-row items-center justify-center">
+    <section id="problem" ref={containerRef} className="w-full bg-[#050505] relative h-[400vh]">
+      <div className="w-full sticky top-0 h-[100svh] flex items-center justify-center relative overflow-hidden">
+        <div className="container mx-auto px-6 relative h-full flex flex-col items-center justify-center">
           
-          <div className="relative w-full max-w-4xl text-center flex flex-col md:block">
+          <div className="relative w-full max-w-4xl text-center block">
             <h2 
               ref={text1Ref} 
               className="absolute top-1/2 left-0 right-0 -translate-y-1/2 font-display font-bold text-4xl md:text-5xl lg:text-7xl tracking-tighter text-white"

@@ -21,7 +21,7 @@ const steps = [
     id: 'step-2',
     eyebrow: 'Automated Follow-Up',
     title: 'Timestamped automated messages, no lead left cold.',
-    component: MockChatAutomation // A variant visually could be achieved by passing a prop, but we'll reuse the same for now
+    component: MockChatAutomation
   },
   {
     id: 'step-3',
@@ -39,14 +39,12 @@ const steps = [
 
 export default function TheProduct() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const leftColRef = useRef<HTMLDivElement>(null);
-  const rightColRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     let mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
-      // Desktop: Timeline linked to the scroll of the container
+    // Default: Full motion
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -81,11 +79,11 @@ export default function TheProduct() {
       tl.to({}, { duration: 1 }); // hold at the end
     });
 
-    mm.add("(max-width: 767px)", () => {
-      // Mobile reveals
-      const stepElements = gsap.utils.toArray('.product-step-mobile') as HTMLElement[];
-      const panelElements = gsap.utils.toArray('.product-panel-mobile') as HTMLElement[];
-      gsap.set([...stepElements, ...panelElements], { autoAlpha: 0, y: 30 });
+    // Fallback: Reduced motion
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      const stepElements = gsap.utils.toArray('.product-step') as HTMLElement[];
+      const panelElements = gsap.utils.toArray('.product-panel') as HTMLElement[];
+      gsap.set([...stepElements, ...panelElements], { autoAlpha: 0, y: 30, position: 'relative', top: 'auto', left: 'auto', transform: 'none' });
 
       [...stepElements, ...panelElements].forEach(el => {
         gsap.to(el, {
@@ -103,25 +101,25 @@ export default function TheProduct() {
   }, { scope: containerRef });
 
   return (
-    <section id="product" ref={containerRef} className="w-full bg-[#0A0A0A] relative md:h-[500vh]">
-      <div className="w-full md:sticky md:top-0 md:h-screen flex items-center relative py-24 md:py-0 overflow-hidden">
+    <section id="product" ref={containerRef} className="w-full bg-[#0A0A0A] relative h-[500vh]">
+      <div className="w-full sticky top-0 h-[100svh] flex items-center relative py-20 md:py-0 overflow-hidden">
         
-        {/* Desktop Layout (Pinned via Sticky) */}
-        <div className="hidden md:flex container mx-auto px-6 h-screen py-20 flex-col md:flex-row items-center gap-12">
-          {/* Left Column: Text Steps */}
-          <div ref={leftColRef} className="w-5/12 flex flex-col justify-center h-full gap-12">
+        <div className="container mx-auto px-6 h-full flex flex-col md:flex-row items-center gap-8 md:gap-12 pb-24 md:pb-0">
+          
+          {/* Text Steps - Top on mobile, Left on desktop */}
+          <div className="w-full md:w-5/12 flex flex-col justify-center h-1/2 md:h-full gap-8 md:gap-12 relative z-10 pt-16 md:pt-0">
             {steps.map((step) => (
-              <div key={step.id} className="product-step">
+              <div key={step.id} className="product-step absolute md:relative top-1/2 md:top-auto -translate-y-1/2 md:translate-y-0 w-full left-0 md:left-auto">
                 <div className="eyebrow mb-2">{step.eyebrow}</div>
-                <h3 className="text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-tight">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-tight">
                   {step.title}
                 </h3>
               </div>
             ))}
           </div>
 
-          {/* Right Column: UI Panels */}
-          <div ref={rightColRef} className="w-7/12 relative h-full flex items-center justify-center perspective-1000">
+          {/* UI Panels - Bottom on mobile, Right on desktop */}
+          <div className="w-full md:w-7/12 relative h-1/2 md:h-full flex items-center justify-center perspective-1000 mt-8 md:mt-0">
             {steps.map((step, i) => {
               const Component = step.component;
               return (
@@ -135,28 +133,8 @@ export default function TheProduct() {
               );
             })}
           </div>
+          
         </div>
-
-        {/* Mobile Layout (Normal Flow) */}
-        <div className="md:hidden container mx-auto px-6 flex flex-col gap-16">
-          {steps.map((step) => {
-            const Component = step.component;
-            return (
-              <div key={`${step.id}-mobile`} className="flex flex-col gap-6">
-                <div className="product-step-mobile">
-                  <div className="eyebrow mb-2">{step.eyebrow}</div>
-                  <h3 className="text-2xl font-display font-bold text-white tracking-tight leading-tight">
-                    {step.title}
-                  </h3>
-                </div>
-                <div className="product-panel-mobile w-full flex justify-center">
-                  <Component />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
       </div>
     </section>
   );

@@ -6,6 +6,7 @@ import TheProduct from '@/components/sections/TheProduct';
 import Credibility from '@/components/sections/Credibility';
 import Pricing from '@/components/sections/Pricing';
 import FinalCTA from '@/components/sections/FinalCTA';
+import MobileStickyCTA from '@/components/MobileStickyCTA';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Pricing />
       <FinalCTA />
       <SiteFooter />
+      <MobileStickyCTA />
     </main>
   );
 }

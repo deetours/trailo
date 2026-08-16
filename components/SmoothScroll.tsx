@@ -25,9 +25,16 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
         ScrollTrigger.refresh();
       }, 500);
 
+      // Handle mobile address bar show/hide which resizes visual viewport
+      const handleResize = () => {
+        ScrollTrigger.refresh();
+      };
+      window.visualViewport?.addEventListener('resize', handleResize);
+
       return () => {
         gsap.ticker.remove(update);
         clearTimeout(timeout);
+        window.visualViewport?.removeEventListener('resize', handleResize);
       };
     }
   }, []);
@@ -40,6 +47,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
         lerp: 0.05, 
         duration: 1.5, 
         smoothWheel: true,
+        syncTouch: true, // explicit touch syncing for scroll triggers
         autoResize: true // important for ScrollTrigger
       }}
     >
