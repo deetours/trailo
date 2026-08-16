@@ -43,8 +43,8 @@ export default function TheProduct() {
   useGSAP(() => {
     let mm = gsap.matchMedia();
 
-    // Default: Full motion
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    // Desktop: Full motion (Stacked list, opacity change)
+    mm.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)", () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -57,12 +57,10 @@ export default function TheProduct() {
       const stepElements = gsap.utils.toArray('.product-step') as HTMLElement[];
       const panelElements = gsap.utils.toArray('.product-panel') as HTMLElement[];
 
-      // Set initial states
       gsap.set(stepElements.slice(1), { autoAlpha: 0.2 });
       gsap.set(panelElements.slice(1), { autoAlpha: 0, y: 50, scale: 0.95 });
       gsap.set(panelElements[0], { autoAlpha: 1, y: 0, scale: 1 });
 
-      // Animate through each step sequentially
       stepElements.forEach((step, i) => {
         if (i === 0) return;
 
@@ -76,7 +74,50 @@ export default function TheProduct() {
         }
       });
 
-      tl.to({}, { duration: 1 }); // hold at the end
+      tl.to({}, { duration: 1 });
+      
+      return () => {
+        tl.kill();
+      };
+    });
+
+    // Mobile: Full motion (Absolute layout, crossfade)
+    mm.add("(prefers-reduced-motion: no-preference) and (max-width: 767px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: true,
+        }
+      });
+
+      const stepElements = gsap.utils.toArray('.product-step') as HTMLElement[];
+      const panelElements = gsap.utils.toArray('.product-panel') as HTMLElement[];
+
+      gsap.set(stepElements.slice(1), { autoAlpha: 0, y: 50 });
+      gsap.set(panelElements.slice(1), { autoAlpha: 0, y: 50, scale: 0.95 });
+      gsap.set(stepElements[0], { autoAlpha: 1, y: 0 });
+      gsap.set(panelElements[0], { autoAlpha: 1, y: 0, scale: 1 });
+
+      stepElements.forEach((step, i) => {
+        if (i === 0) return;
+
+        tl.to(stepElements[i - 1], { autoAlpha: 0, y: -50, duration: 1 })
+          .to(panelElements[i - 1], { autoAlpha: 0, y: -50, scale: 0.95, duration: 1 }, "<")
+          .to(step, { autoAlpha: 1, y: 0, duration: 1 })
+          .to(panelElements[i], { autoAlpha: 1, y: 0, scale: 1, duration: 1 }, "<");
+          
+        if (i < stepElements.length - 1) {
+          tl.to({}, { duration: 0.5 }); // short hold
+        }
+      });
+
+      tl.to({}, { duration: 1 });
+      
+      return () => {
+        tl.kill();
+      };
     });
 
     // Fallback: Reduced motion
