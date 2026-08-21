@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Trailo | Automation for Trip Organizers",
-  description: "Your trips sell, follow up, and get paid automatically, without you touching a spreadsheet.",
+  title: "Trailo — Plan the trip. Not the spreadsheet.",
+  description: "One place for the route, the group, the checklist, and the memory. Road trips and treks, start to finish.",
 };
 
 export default function RootLayout({

@@ -45,7 +45,7 @@ export default function EnquiryForm({ referenceId, context = 'General Enquiry' }
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-[#0a0a0a] border border-[#222] p-6 rounded-2xl">
       <div>
         <h3 className="font-display font-bold text-2xl text-white mb-2">{context}</h3>
-        <p className="text-[#888] text-sm">Tell us what you're looking for, and we'll craft the perfect experience.</p>
+        <p className="text-[#888] text-sm">Tell us what you&apos;re looking for, and we&apos;ll craft the perfect experience.</p>
       </div>
 
       <div className="space-y-4">

@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ReactNode, useEffect, useRef } from 'react';
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
-  const lenisRef = useRef<any>(null);
+  const lenisRef = useRef<{ lenis?: { raf: (time: number) => void } }>(null);
 
   useEffect(() => {
     // Sync Lenis with GSAP ScrollTrigger
