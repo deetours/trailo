@@ -51,6 +51,61 @@ export const mockTrips: Trip[] = [
     includedStays: [],
     relatedDestinations: ['d1'],
     relatedExperiences: []
+  },
+  {
+    id: 't3',
+    title: 'Hampta Pass Trek',
+    slug: 'hampta-pass-trek',
+    duration: 5,
+    vehicleTypes: [],
+    difficulty: 'Moderate',
+    distanceKm: 35,
+    estCost: 450,
+    bestSeason: 'Mid-June to early September',
+    heroMedia: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80'
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: 'Manali to Jobra, trek to Chika',
+        route: 'Jobra → Chika',
+        activities: ['Drive to trailhead', 'Short acclimatization trek'],
+        notes: 'Gentle first day through pine forest alongside the Rani Nallah.'
+      },
+      {
+        day: 2,
+        title: 'Chika to Balu ka Ghera',
+        route: 'Chika → Balu ka Ghera',
+        activities: ['River crossing', 'Alpine meadow trek'],
+        notes: 'Long climb with views back toward the Pir Panjal range.'
+      },
+      {
+        day: 3,
+        title: 'Cross Hampta Pass to Shea Goru',
+        route: 'Balu ka Ghera → Hampta Pass (4270m) → Shea Goru',
+        activities: ['Summit push', 'Descent into the Lahaul side'],
+        notes: 'The landscape flips from green to cold desert within a few hours.'
+      },
+      {
+        day: 4,
+        title: 'Shea Goru to Chatru',
+        route: 'Shea Goru → Chatru',
+        activities: ['Final descent', 'Optional side trip toward Chandratal'],
+      },
+      {
+        day: 5,
+        title: 'Chatru to Manali',
+        route: 'Chatru → Rohtang Pass → Manali',
+        activities: ['Drive back over Rohtang Pass'],
+        notes: 'Trek ends; onward journey to Spiti is possible from Chatru instead.'
+      }
+    ],
+    includedStays: [],
+    relatedDestinations: ['d1'],
+    relatedExperiences: ['e1']
   }
 ];
 

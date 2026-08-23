@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
-import { Inter, Geist_Mono } from "next/font/google";
+import { Inter, Big_Shoulders, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: 'swap',
+});
+
+// Big Shoulders' `opsz` axis is what gives it the tall, condensed display
+// character (vs. its text cut) — without it, the family renders closer to
+// a generic condensed sans at these weights.
+const bigShouldersDisplay = Big_Shoulders({
+  variable: "--font-big-shoulders",
+  subsets: ["latin"],
+  weight: "variable",
+  axes: ["opsz"],
   display: 'swap',
 });
 
@@ -27,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${bigShouldersDisplay.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-screen bg-background text-foreground selection:bg-white selection:text-black">
         <SmoothScroll>

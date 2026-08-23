@@ -1,8 +1,10 @@
-import Link from 'next/link';
+import Image from 'next/image';
 import { MapPin, Calendar, Clock, Navigation } from 'lucide-react';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import DiscoverTrips from '@/components/sections/DiscoverTrips';
+import Card from '@/components/Card';
+import RouteEmptyState from '@/components/RouteEmptyState';
 import { mockDestinations, mockTrips } from '@/data/fixtures';
 import { notFound } from 'next/navigation';
 
@@ -26,11 +28,11 @@ export default async function DestinationPublicView({ params }: { params: Promis
       
       {/* Destination Hero */}
       <div className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden border-b border-[#222]">
-        <div className="absolute inset-0 bg-[#0d0d0d] flex items-center justify-center text-[#222] font-mono text-xs uppercase tracking-widest">
+        <div className="absolute inset-0">
           {destination.heroMedia ? (
-            <img src={destination.heroMedia} alt={destination.name} className="w-full h-full object-cover opacity-50" />
+            <Image src={destination.heroMedia} alt={destination.name} fill priority sizes="100vw" className="object-cover opacity-50" />
           ) : (
-            `Visual: Destination Image for ${destination.name}`
+            <RouteEmptyState message={`No hero image set for ${destination.name}`} className="w-full h-full" />
           )}
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-black/40 to-transparent"></div>
@@ -61,10 +63,16 @@ export default async function DestinationPublicView({ params }: { params: Promis
             <h2 className="text-3xl font-bold text-white mb-8">Trips in {destination.name}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedTrips.map(trip => (
-                <Link key={trip.id} href={`/trips/${trip.slug}`} className="group bg-[#111] border border-[#222] rounded-2xl overflow-hidden hover:border-[#444] transition-colors flex flex-col">
+                <Card key={trip.id} href={`/trips/${trip.slug}`} className="overflow-hidden flex flex-col">
                   <div className="h-48 bg-[#222] relative overflow-hidden">
                     {trip.heroMedia ? (
-                      <img src={trip.heroMedia} alt={trip.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <Image
+                        src={trip.heroMedia}
+                        alt={trip.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center text-[#444] text-xs font-mono">No Image</div>
                     )}
@@ -82,7 +90,7 @@ export default async function DestinationPublicView({ params }: { params: Promis
                       <span className="flex items-center gap-1.5"><Navigation size={14} /> {trip.distanceKm}km</span>
                     </div>
                   </div>
-                </Link>
+                </Card>
               ))}
             </div>
           </div>

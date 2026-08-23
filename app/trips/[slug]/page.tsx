@@ -1,8 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Clock, Map, Navigation, Copy, Calendar } from 'lucide-react';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import MagneticButton from '@/components/MagneticButton';
+import Card from '@/components/Card';
+import RouteEmptyState from '@/components/RouteEmptyState';
+import TheAssembly from '@/components/sections/TheAssembly';
 import { mockTrips, mockStays, mockExperiences } from '@/data/fixtures';
 import { notFound } from 'next/navigation';
 
@@ -26,11 +30,11 @@ export default async function TripPublicView({ params }: { params: Promise<{ slu
       
       {/* Hero */}
       <div className="relative h-[70vh] min-h-[600px] flex items-end pb-20 overflow-hidden border-b border-[#222]">
-        <div className="absolute inset-0 bg-[#0d0d0d] flex items-center justify-center text-[#222] font-mono text-xs uppercase tracking-widest">
+        <div className="absolute inset-0">
           {trip.heroMedia ? (
-            <img src={trip.heroMedia} alt={trip.title} className="w-full h-full object-cover opacity-60" />
+            <Image src={trip.heroMedia} alt={trip.title} fill priority sizes="100vw" className="object-cover opacity-60" />
           ) : (
-            `Visual: Hero Image for ${trip.title}`
+            <RouteEmptyState message={`No hero image set for ${trip.title}`} className="w-full h-full" />
           )}
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent"></div>
@@ -65,6 +69,8 @@ export default async function TripPublicView({ params }: { params: Promise<{ slu
           </div>
         </div>
       </div>
+
+      {trip.slug === 'great-himalayan-crossing' && <TheAssembly trip={trip} />}
 
       <div className="container mx-auto px-6 py-20 flex flex-col lg:flex-row gap-16">
         
@@ -108,14 +114,14 @@ export default async function TripPublicView({ params }: { params: Promise<{ slu
               <h2 className="text-3xl font-bold text-white mb-8">Included Stays</h2>
               <div className="grid gap-6">
                 {includedStaysData.map(stay => (
-                  <div key={stay!.id} className="bg-[#111] border border-[#222] rounded-xl p-6">
+                  <Card key={stay!.id} rounded="xl" hover={false} className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2">{stay!.name}</h3>
                     <div className="flex items-center gap-4 text-sm text-[#888] mb-3">
                       <span className="flex items-center gap-1.5"><Map size={14} /> {stay!.location}</span>
                       <span className="flex items-center gap-1.5 capitalize bg-[#222] px-2 py-0.5 rounded">{stay!.type}</span>
                     </div>
                     {stay!.description && <p className="text-[#ccc] text-sm">{stay!.description}</p>}
-                  </div>
+                  </Card>
                 ))}
               </div>
             </section>
@@ -124,7 +130,7 @@ export default async function TripPublicView({ params }: { params: Promise<{ slu
 
         {/* Sidebar */}
         <aside className="lg:w-1/3">
-          <div className="bg-[#111] rounded-2xl border border-[#222] p-8 sticky top-28">
+          <Card hover={false} className="p-8 sticky top-28">
             <h3 className="font-bold text-white text-lg mb-6">Trip Details</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-[#888]">
@@ -143,11 +149,11 @@ export default async function TripPublicView({ params }: { params: Promise<{ slu
             
             <div className="mt-8 pt-8 border-t border-[#222]">
               <div className="text-sm text-[#888] mb-4">Ready to go?</div>
-              <button className="w-full bg-white text-black font-medium py-3 rounded-lg hover:bg-[#eaeaea] transition-colors flex items-center justify-center gap-2">
+              <Link href="/signup" className="w-full bg-white text-black font-medium py-3 rounded-lg hover:bg-[#eaeaea] transition-colors flex items-center justify-center gap-2">
                 <Copy size={16} /> Clone to Dashboard
-              </button>
+              </Link>
             </div>
-          </div>
+          </Card>
         </aside>
       </div>
       

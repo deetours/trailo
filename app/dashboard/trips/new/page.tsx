@@ -40,9 +40,10 @@ export default function NewTripPage() {
   const onSubmit = async (data: NewTripData) => {
     setIsSubmitting(true);
     try {
-      // Mock creation, redirect to trip workspace (using fake ID 'trip-123')
+      // Mock creation — no backend yet, so return to the trips list rather than
+      // a workspace URL that can't resolve to a real trip.
       await new Promise(resolve => setTimeout(resolve, 800));
-      router.push('/dashboard/trips/trip-123');
+      router.push('/dashboard/trips');
     } catch (error) {
       console.error('Error creating trip:', error);
     } finally {

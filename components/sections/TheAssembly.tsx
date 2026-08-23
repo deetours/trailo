@@ -4,17 +4,22 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import Image from 'next/image';
 import { mockTrips } from '@/data/fixtures';
 import { routePrepMarks } from '@/data/routes';
+import type { Trip } from '@/types';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function TheAssembly() {
+// routePrepMarks (data/routes.ts) is real waypoint data for the Manali–Keylong
+// corridor specifically — it only applies to the Great Himalayan Crossing trip,
+// so it's shown only when that trip is the one being rendered.
+export default function TheAssembly({ trip = mockTrips[0] }: { trip?: Trip }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
-  const trip = mockTrips[0];
+  const showRoutePrepMarks = trip.slug === 'great-himalayan-crossing';
 
   useGSAP(
     () => {
@@ -130,7 +135,7 @@ export default function TheAssembly() {
           <div className="route-dot absolute left-[95%] top-[50%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-[#0A0A0A] z-10 shadow-lg" />
 
           {/* Prep Marks */}
-          {routePrepMarks?.map((mark, i) => {
+          {showRoutePrepMarks && routePrepMarks?.map((mark, i) => {
             // Rough percentages along the path for visual distribution
             const leftPositions = ['25%', '50%', '75%'];
             const topPositions = ['35%', '65%', '45%'];
@@ -166,7 +171,7 @@ export default function TheAssembly() {
         <div className="gallery-strip w-full max-w-5xl flex gap-4 overflow-hidden pt-4 pb-12">
           {(trip?.gallery || []).slice(0, 4).map((url, i) => (
             <div key={i} className="relative w-1/4 aspect-[4/3] rounded-lg overflow-hidden border border-[#222]">
-              <img src={url} alt={`Trip memory ${i + 1}`} className="object-cover w-full h-full" />
+              <Image src={url} alt={`Trip memory ${i + 1}`} fill sizes="25vw" className="object-cover" />
             </div>
           ))}
         </div>

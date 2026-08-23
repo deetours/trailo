@@ -6,7 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Mountain, ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import Logo from '@/components/Logo';
 import { useRouter } from 'next/navigation';
 
 const signupSchema = z.object({
@@ -47,7 +48,7 @@ export default function SignupPage() {
       <header className="p-6 md:p-10 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="bg-white text-black p-1.5 rounded flex items-center justify-center group-hover:bg-[#ccc] transition-colors">
-            <Mountain size={20} strokeWidth={2.5} />
+            <Logo wordmark={false} markClassName="w-4 h-4" />
           </div>
           <span className="font-display font-bold text-xl tracking-tight text-white">Trailo</span>
         </Link>

@@ -10,7 +10,7 @@ export default function EcosystemStrip() {
             <span className="opacity-50">|</span>
             <a href="https://stayo.girivah.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">StayO</a>
             <span className="opacity-50">|</span>
-            <a href="#" className="hover:text-white transition-colors">Rido</a>
+            <span className="text-[#555]" title="Coming soon">Rido</span>
           </div>
           
           <div className="text-xs text-[#666] uppercase tracking-widest">

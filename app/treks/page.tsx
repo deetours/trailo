@@ -7,6 +7,7 @@ import { ArrowRight, Mountain } from 'lucide-react'
 import { mockTrips } from '@/data/fixtures'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import Card from '@/components/Card'
 
 function getDifficultyAngle(difficulty: string): number {
   switch (difficulty.toLowerCase()) {
@@ -52,7 +53,7 @@ export default function TreksPage() {
             const angle = getDifficultyAngle(trip.difficulty)
             
             return (
-              <article key={trip.id} className="group flex flex-col md:flex-row gap-8 items-center border border-[#222] bg-[#0c0c0c] p-6 rounded-2xl hover:border-[#444] transition-colors">
+              <Card key={trip.id} className="group flex flex-col md:flex-row gap-8 items-center p-6">
                 <div className="w-full md:w-2/5 aspect-[4/3] relative rounded-xl overflow-hidden shrink-0">
                   {trip.heroMedia ? (
                     <Image 
@@ -96,12 +97,12 @@ export default function TreksPage() {
                     </p>
                   </div>
 
-                  <Link href={`/trips/${trip.id}`} className="mt-auto self-start flex items-center gap-3 text-[#ccc] hover:text-white transition-colors group/link font-mono uppercase text-sm tracking-wider">
+                  <Link href={`/trips/${trip.slug}`} className="mt-auto self-start flex items-center gap-3 text-[#ccc] hover:text-white transition-colors group/link font-mono uppercase text-sm tracking-wider">
                     <span>View Expedition</span>
                     <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
                   </Link>
                 </div>
-              </article>
+              </Card>
             )
           })}
         </section>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, ArrowRight, MapPin, Calendar, Clock, Navigation } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
+import Card from '@/components/Card';
 import { mockTrips } from '@/data/fixtures';
 
 type TabType = 'upcoming' | 'planning' | 'past';
@@ -70,10 +71,11 @@ export default function TripsPage() {
         ) : (
           <div className="grid gap-4">
             {filteredTrips.map(trip => (
-              <Link 
-                key={trip.id} 
+              <Card
+                key={trip.id}
                 href={`/dashboard/trips/${trip.id}`}
-                className="bg-[#111] border border-[#222] rounded-xl p-6 hover:border-[#444] transition-colors flex flex-col md:flex-row md:items-center justify-between gap-6"
+                rounded="xl"
+                className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6"
               >
                 <div>
                   <div className="flex items-center gap-3 mb-2">
@@ -93,7 +95,7 @@ export default function TripsPage() {
                 <div className="flex items-center gap-2 text-[#2A8AF6] text-sm font-medium">
                   View Workspace <ArrowRight size={16} />
                 </div>
-              </Link>
+              </Card>
             ))}
           </div>
         )}

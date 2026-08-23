@@ -100,12 +100,12 @@ export default function RouteScrub() {
     Math.floor(progress * itineraryLength)
   );
 
-  const initialGeoJSON: any = {
-    type: 'Feature',
+  const initialGeoJSON = {
+    type: 'Feature' as const,
     properties: {},
     geometry: {
-      type: 'LineString',
-      coordinates: []
+      type: 'LineString' as const,
+      coordinates: [] as [number, number][]
     }
   };
 

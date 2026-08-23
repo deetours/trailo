@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Mountain, Compass, Map, User } from 'lucide-react';
+import { Compass, Map, User } from 'lucide-react';
+import Logo from '@/components/Logo';
 
 export default function DashboardLayout({
   children,
@@ -13,7 +14,7 @@ export default function DashboardLayout({
         <div className="h-20 px-6 flex items-center border-b border-[#222]">
           <Link href="/" className="flex items-center gap-2 group">
             <div className="bg-white text-black p-1.5 rounded flex items-center justify-center">
-              <Mountain size={20} strokeWidth={2.5} />
+              <Logo wordmark={false} markClassName="w-4 h-4" />
             </div>
             <span className="font-display font-bold text-xl tracking-tight">Trailo</span>
           </Link>
@@ -43,7 +44,7 @@ export default function DashboardLayout({
         {/* Mobile Header (simplified for now) */}
         <div className="md:hidden h-16 border-b border-[#222] bg-[#0A0A0A] flex items-center px-4 justify-between">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <Mountain size={20} />
+            <Logo wordmark={false} markClassName="w-5 h-5" />
             <span className="font-display font-bold">Trailo</span>
           </Link>
           <div className="flex items-center gap-4 text-sm">

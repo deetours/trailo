@@ -2,17 +2,16 @@
 
 import Link from 'next/link';
 import MagneticButton from './MagneticButton';
-import { Mountain } from 'lucide-react';
+import Logo from './Logo';
 
 export default function SiteHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/80 backdrop-blur-md border-b border-[#222]">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-        
+
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <Mountain size={24} strokeWidth={2} className="text-white group-hover:text-[#aaa] transition-colors" />
-          <span className="font-display font-bold text-xl tracking-tight text-white group-hover:text-[#aaa] transition-colors">Trailo</span>
+        <Link href="/" className="group">
+          <Logo className="text-white group-hover:text-[#aaa] transition-colors" markClassName="w-6 h-6" />
         </Link>
 
         {/* Desktop Navigation */}

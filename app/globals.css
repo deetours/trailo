@@ -11,7 +11,7 @@
   
   --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-inter); /* using inter as bold display too */
+  --font-display: var(--font-big-shoulders);
 }
 
 :root {
@@ -57,10 +57,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Base Headings */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display), sans-serif;
-  letter-spacing: -0.04em;
+/* Base Headings — a moderate default tracking that works at card-title sizes.
+   Individual headings opt into tighter tracking (Tailwind's tracking-tighter/
+   tracking-tight utilities) at display sizes; putting this rule in @layer base
+   lets those utilities win the cascade instead of being silently overridden. */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), sans-serif;
+    letter-spacing: -0.02em;
+  }
 }
 
 /* Utility for quiet monospace eyebrows */

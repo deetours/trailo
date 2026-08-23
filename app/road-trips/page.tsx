@@ -73,7 +73,7 @@ export default function RoadTripsPage() {
                       </div>
                     </div>
                     
-                    <Link href={`/trips/${trip.id}`} className="w-10 h-10 rounded-full border border-[#222] flex items-center justify-center hover:bg-white hover:text-black transition-colors shrink-0">
+                    <Link href={`/trips/${trip.slug}`} className="w-10 h-10 rounded-full border border-[#222] flex items-center justify-center hover:bg-white hover:text-black transition-colors shrink-0">
                       <ArrowRight size={20} />
                     </Link>
                   </div>
