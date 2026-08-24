@@ -42,7 +42,7 @@ function ActiveConversationView({ id }: { id: string }) {
 export default function WhatsAppConversationPage({ params }: { params: Promise<{ conversationId: string }> }) {
   // Using React.use to unwrap params correctly for Next.js 15+
   const resolvedParams = use(params);
-  
+
   return (
     <WhatsAppWorkspace activeId={resolvedParams.conversationId}>
       <ActiveConversationView id={resolvedParams.conversationId} />

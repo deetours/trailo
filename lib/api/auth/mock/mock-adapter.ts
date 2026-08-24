@@ -1,5 +1,6 @@
-import type { AuthService } from '../service';
+import type { AuthService, RegisterInput } from '../service';
 import type { AuthSession, User } from '@/types/user';
+import { businessService } from '@/lib/api/business/mock/mock-adapter';
 
 class MockAuthAdapter implements AuthService {
   private subscribers = new Set<(s: AuthSession | null) => void>();
@@ -36,19 +37,32 @@ class MockAuthAdapter implements AuthService {
     this.notify();
   }
 
-  async register(input: { name: string; email: string; password: string; businessName: string }): Promise<AuthSession> {
+  async register(input: RegisterInput): Promise<AuthSession> {
+    const businessId = `b_${Date.now()}`;
     const user: User = {
       id: `u_${Date.now()}`,
-      name: input.name,
-      email: input.email,
-      businessId: `b_${Date.now()}`,
+      name: input.ownerName,
+      email: input.ownerEmail,
+      businessId,
       createdAt: new Date().toISOString(),
     };
-    const session: AuthSession = { user, businessId: user.businessId };
-    
+
+    await businessService.createBusinessProfile({
+      id: businessId,
+      ownerUserId: user.id,
+      legalName: input.legalName,
+      displayName: input.displayName,
+      contactEmail: input.ownerEmail,
+      contactPhone: input.ownerPhone,
+      entityType: input.entityType,
+      address: input.address,
+    });
+
+    const session: AuthSession = { user, businessId };
+
     // Simulating API delay
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     this.setSession(session);
     return session;
   }

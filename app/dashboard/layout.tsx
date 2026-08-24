@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Compass, Map, User, Building, LogOut } from 'lucide-react';
+import { Compass, Map, User, Building, LogOut, Users, UserCheck, MessageCircle, CalendarCheck, Wallet } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/cn';
@@ -24,6 +24,11 @@ export default function DashboardLayout({
   const navItems = [
     { href: '/dashboard', label: 'Overview', icon: Compass, exact: true },
     { href: '/dashboard/trips', label: 'Trips', icon: Map, exact: false },
+    { href: '/dashboard/leads', label: 'Leads', icon: Users, exact: false },
+    { href: '/dashboard/customers', label: 'Customers', icon: UserCheck, exact: false },
+    { href: '/dashboard/whatsapp', label: 'WhatsApp', icon: MessageCircle, exact: false },
+    { href: '/dashboard/bookings', label: 'Bookings', icon: CalendarCheck, exact: false },
+    { href: '/dashboard/payments', label: 'Payments', icon: Wallet, exact: false },
     { href: '/dashboard/business', label: 'Business Profile', icon: Building, exact: false },
   ];
 

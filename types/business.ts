@@ -31,8 +31,31 @@ export interface BusinessProfile {
   brandKit: BrandKit;
   address?: BusinessAddress;
   taxId?: string;
+  entityType?: BusinessEntityType;
+  verification?: BusinessVerification;
   createdAt: string;
   updatedAt: string;
+}
+
+export type BusinessEntityType = 'sole-proprietorship' | 'partnership' | 'llp' | 'private-limited';
+
+export type VerificationStatus = 'unverified' | 'submitted' | 'under-review' | 'verified' | 'rejected' | 'suspended';
+
+export type VerificationDocumentType = 'pan' | 'aadhaar' | 'entity-registration' | 'address-proof' | 'other';
+
+export interface VerificationDocument {
+  id: string;
+  type: VerificationDocumentType;
+  fileName: string;
+  uploadedAt: string;
+}
+
+export interface BusinessVerification {
+  status: VerificationStatus;
+  documents: VerificationDocument[];
+  submittedAt?: string;
+  reviewedAt?: string;
+  rejectionReason?: string;
 }
 
 export type TeamRole = 'owner' | 'admin' | 'editor';

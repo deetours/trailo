@@ -7,7 +7,7 @@ import { formatTime } from "@/lib/whatsapp/format";
 export function ConversationListItem({ conversation, isActive }: { conversation: Conversation; isActive: boolean }) {
   return (
     <Link 
-      href={`/admin/whatsapp/${conversation.id}`}
+      href={`/dashboard/whatsapp/${conversation.id}`}
       className={cn(
         "block p-4 border-b border-[#111] hover:bg-[#111] transition-colors relative",
         isActive && "bg-[#111]"

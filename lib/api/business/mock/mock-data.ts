@@ -13,6 +13,8 @@ export const mockBusinessProfile: BusinessProfile = {
     primaryColor: '#000000',
     secondaryColor: '#ffffff'
   },
+  entityType: 'private-limited',
+  verification: { status: 'verified', documents: [] },
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };

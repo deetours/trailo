@@ -7,7 +7,7 @@ export function ConversationHeader({ conversation }: { conversation: Conversatio
   return (
     <div className="h-16 border-b border-[#222] bg-[#0A0A0A] flex items-center justify-between px-4">
       <div className="flex items-center gap-3">
-        <Link href="/admin/whatsapp" className="md:hidden p-2 -ml-2 text-[#888] hover:text-white">
+        <Link href="/dashboard/whatsapp" className="md:hidden p-2 -ml-2 text-[#888] hover:text-white">
           <ArrowLeft size={20} />
         </Link>
         <div className="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center text-sm font-medium">

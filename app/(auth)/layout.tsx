@@ -1,8 +1,15 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import Logo from '@/components/Logo';
+import { cn } from '@/lib/cn';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isRegister = pathname.startsWith('/register');
+
   return (
     <main className="min-h-screen bg-background flex flex-col font-sans">
       <header className="p-6 md:p-10 flex items-center justify-between">
@@ -15,7 +22,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </header>
 
       <div className="flex-1 flex items-center justify-center p-6 pb-20">
-        <div className="w-full max-w-md">
+        <div className={cn('w-full', isRegister ? 'max-w-2xl' : 'max-w-md')}>
           {children}
         </div>
       </div>

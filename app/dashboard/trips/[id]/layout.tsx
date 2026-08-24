@@ -3,7 +3,7 @@
 import { use } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Settings, Tag, Map, Image as ImageIcon, Users, ExternalLink, ArrowLeft } from 'lucide-react';
+import { Settings, Tag, Map, Image as ImageIcon, CalendarDays, ShieldCheck, ExternalLink, ArrowLeft } from 'lucide-react';
 import { useTrip } from '@/lib/api/trips/hooks/useTrip';
 import { cn } from '@/lib/cn';
 import { useSession } from '@/lib/api/auth/hooks/useSession';
@@ -28,7 +28,8 @@ export default function TripEditorLayout({
     { href: `/dashboard/trips/${id}/pricing`, label: 'Pricing', icon: Tag },
     { href: `/dashboard/trips/${id}/itinerary`, label: 'Itinerary', icon: Map },
     { href: `/dashboard/trips/${id}/media`, label: 'Media', icon: ImageIcon },
-    { href: `/dashboard/trips/${id}/people`, label: 'People', icon: Users },
+    { href: `/dashboard/trips/${id}/departures`, label: 'Departures', icon: CalendarDays },
+    { href: `/dashboard/trips/${id}/policies`, label: 'Policies', icon: ShieldCheck },
   ];
 
   if (isLoading || !trip) {
