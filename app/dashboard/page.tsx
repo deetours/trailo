@@ -1,21 +1,27 @@
+'use client';
+
 import Link from 'next/link';
 import { Plus, ArrowRight } from 'lucide-react';
-import type { SVGProps } from 'react';
 import MagneticButton from '@/components/MagneticButton';
+import RouteEmptyState from '@/components/RouteEmptyState';
+import { useSession } from '@/lib/api/auth/hooks/useSession';
+import { useTrips } from '@/lib/api/trips/hooks/useTrips';
 
 export default function DashboardPage() {
-  // Mock data for the "next trip"
-  const nextTrip = null; // Set to null to show empty state
+  const { session } = useSession();
+  const { result } = useTrips(session?.businessId || '', { pageSize: 1, sortBy: 'updatedAt', sortDir: 'desc' });
+
+  const nextTrip = result.items[0] || null;
 
   return (
     <div className="space-y-12">
       
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="font-display font-bold text-3xl md:text-4xl text-white tracking-tight mb-2">
-            Welcome back, Alex
+          <h1 className="font-display font-bold text-3xl md:text-4xl text-foreground tracking-tight mb-2">
+            Welcome back, {session?.user?.name || 'Organizer'}
           </h1>
-          <p className="text-[#888]">Here is what&apos;s happening with your journeys.</p>
+          <p className="text-muted-foreground">Here is what&apos;s happening with your journeys.</p>
         </div>
         <MagneticButton href="/dashboard/trips/new" variant="primary" className="py-2.5 px-5">
           <span className="flex items-center gap-2">
@@ -25,52 +31,35 @@ export default function DashboardPage() {
       </header>
 
       <section>
-        <h2 className="text-sm font-medium text-[#ccc] uppercase tracking-widest mb-6">Up Next</h2>
+        <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-6">Recently Updated</h2>
         
         {nextTrip ? (
-          <div className="bg-[#111] border border-[#222] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-8 items-start">
-            {/* Populate with actual trip data later */}
-          </div>
-        ) : (
-          <div className="bg-[#111] border border-[#222] rounded-2xl p-8 md:p-12 text-center flex flex-col items-center">
-            <div className="w-16 h-16 bg-[#222] rounded-full flex items-center justify-center text-[#888] mb-6">
-              <Compass size={24} />
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">No trips planned yet</h3>
-            <p className="text-[#888] max-w-md mb-8">
-              Your itinerary is completely open. Start planning your first road trip or trek to get the journey started.
-            </p>
-            <Link 
-              href="/dashboard/trips/new"
-              className="bg-white text-black px-6 py-3 rounded-full font-medium text-sm hover:bg-[#eaeaea] transition-colors flex items-center gap-2"
-            >
-              Start Planning <ArrowRight size={16} />
+          <div className="bg-card border border-border rounded-2xl p-6 md:p-8 flex flex-col gap-4 items-start">
+            <span className="text-xs uppercase tracking-widest bg-accent text-accent-foreground px-2 py-1 rounded">
+              {nextTrip.status}
+            </span>
+            <h3 className="text-2xl font-bold text-foreground">{nextTrip.basicInfo.name}</h3>
+            <p className="text-muted-foreground">{nextTrip.basicInfo.destinationRegion} • {nextTrip.basicInfo.durationDays} Days</p>
+            <Link href={`/dashboard/trips/${nextTrip.id}`} className="text-primary hover:underline flex items-center gap-2 mt-4 text-sm font-medium">
+              Edit Trip <ArrowRight size={16} />
             </Link>
           </div>
+        ) : (
+          <RouteEmptyState 
+            className="min-h-[300px] rounded-2xl" 
+            message="No trips planned yet" 
+            action={
+              <Link 
+                href="/dashboard/trips/new"
+                className="bg-primary text-primary-foreground px-6 py-3 rounded-full font-medium text-sm hover:bg-primary/90 transition-colors flex items-center gap-2"
+              >
+                Start Planning <ArrowRight size={16} />
+              </Link>
+            }
+          />
         )}
       </section>
 
     </div>
   );
-}
-
-// Just for the empty state icon
-function Compass({ size, ...props }: SVGProps<SVGSVGElement> & { size?: number }) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width={size ?? 24}
-      height={size ?? 24}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
-    </svg>
-  )
 }

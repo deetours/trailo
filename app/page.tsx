@@ -1,23 +1,28 @@
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
-import Hero from '@/components/sections/Hero';
-import { RoadOrTrek } from '@/components/sections/RoadOrTrek';
-import RouteScrub from '@/components/sections/RouteScrub';
-import DiscoverTrips from '@/components/sections/DiscoverTrips';
-import Invitation from '@/components/sections/Invitation';
+import NoiseOverlay from '@/components/visuals/NoiseOverlay';
+import Hero from '@/components/sections/marketing/Hero';
+import BusinessReality from '@/components/sections/marketing/BusinessReality';
+import PlatformLoop from '@/components/sections/marketing/PlatformLoop';
+import TripToPage from '@/components/sections/marketing/TripToPage';
+import BrandedPages from '@/components/sections/marketing/BrandedPages';
+import Roadmap from '@/components/sections/marketing/Roadmap';
+import SocialProof from '@/components/sections/marketing/SocialProof';
+import FinalCta from '@/components/sections/marketing/FinalCta';
 
-// TheAssembly (the second Manali–Keylong route sequence) now lives on the
-// Great Himalayan Crossing trip page instead of repeating here right after
-// RouteScrub — see app/trips/[slug]/page.tsx.
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] w-full">
+    <main className="min-h-screen bg-background w-full relative">
+      <NoiseOverlay />
       <SiteHeader />
       <Hero />
-      <RoadOrTrek />
-      <RouteScrub />
-      <DiscoverTrips />
-      <Invitation />
+      <BusinessReality />
+      <PlatformLoop />
+      <TripToPage />
+      <BrandedPages />
+      <Roadmap />
+      <SocialProof />
+      <FinalCta />
       <SiteFooter />
     </main>
   );

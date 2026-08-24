@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import Link from 'next/link';
-
-const MotionLink = motion.create(Link);
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/cn';
+import { gsap } from '@/lib/gsap';
+import { EASE, DURATION } from '@/lib/motion';
 
 interface MagneticButtonProps {
   children: React.ReactNode;
@@ -16,6 +17,12 @@ interface MagneticButtonProps {
   variant?: 'primary' | 'secondary' | 'outline';
 }
 
+const variantMap = {
+  primary: 'default',
+  secondary: 'secondary',
+  outline: 'outline',
+} as const;
+
 export default function MagneticButton({
   children,
   href,
@@ -25,56 +32,73 @@ export default function MagneticButton({
   className = '',
   variant = 'primary',
 }: MagneticButtonProps) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const ref = useRef<HTMLAnchorElement | HTMLButtonElement | null>(null);
+  const quickX = useRef<ReturnType<typeof gsap.quickTo> | null>(null);
+  const quickY = useRef<ReturnType<typeof gsap.quickTo> | null>(null);
 
-  const handleMouse = (e: React.MouseEvent<HTMLElement>) => {
+  // quickTo targets the DOM node directly, so it can't be created until the
+  // ref is attached — lazily built on first pointer move instead of in an
+  // effect, since this component never needs the tween outside interaction.
+  const ensureQuickTo = () => {
+    if (!ref.current || quickX.current) return;
+    quickX.current = gsap.quickTo(ref.current, 'x', { duration: 0.3, ease: EASE.out });
+    quickY.current = gsap.quickTo(ref.current, 'y', { duration: 0.3, ease: EASE.out });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    ensureQuickTo();
     const { clientX, clientY } = e;
     const { height, width, left, top } = e.currentTarget.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
-    setPosition({ x: middleX * 0.2, y: middleY * 0.2 });
+    quickX.current?.((clientX - (left + width / 2)) * 0.2);
+    quickY.current?.((clientY - (top + height / 2)) * 0.2);
   };
 
-  const reset = () => setPosition({ x: 0, y: 0 });
-
-  const triggerHaptic = () => {
-    if (typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(10);
-    }
+  const reset = () => {
+    quickX.current?.(0);
+    quickY.current?.(0);
   };
 
-  const baseStyles = "relative inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all duration-300 rounded-full outline-none group overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed";
-
-  const variants = {
-    primary: "bg-white text-black hover:bg-[#e0e0e0] shadow-[0_0_20px_rgba(255,255,255,0.15)]",
-    secondary: "bg-[#0a0a0a] text-white border border-[#333] hover:bg-[#1a1a1a] hover:border-[#555] shadow-sm",
-    outline: "bg-transparent text-white border border-[#444] hover:bg-white hover:text-black",
+  const handlePressStart = () => {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(10);
+    if (ref.current) gsap.to(ref.current, { scale: 0.95, duration: DURATION.fast, ease: EASE.out });
   };
 
-  const motionProps = {
-    onMouseMove: handleMouse,
+  const handlePressEnd = () => {
+    if (ref.current) gsap.to(ref.current, { scale: 1, duration: DURATION.fast, ease: EASE.out });
+  };
+
+  // Shares its variant recipe with shadcn's Button (components/ui/button.tsx)
+  // so the marketing CTA and the dashboard's buttons stay one visual system.
+  // The magnetic pull / tap-scale / haptic layer on top is GSAP, applied
+  // directly to this element rather than through Base UI's button runtime —
+  // that layer is specific enough (mouse-follow physics) that it isn't worth
+  // routing through the shared primitive's render-prop indirection.
+  const classes = cn(
+    buttonVariants({ variant: variantMap[variant], size: 'lg' }),
+    'rounded-full h-auto px-6 py-3 text-sm font-medium',
+    variant === 'primary' && 'shadow-[0_0_20px_color-mix(in_srgb,var(--primary)_15%,transparent)]',
+    className
+  );
+
+  const sharedProps = {
+    onMouseMove: handleMouseMove,
     onMouseLeave: reset,
-    onTapStart: triggerHaptic,
-    animate: { x: position.x, y: position.y },
-    whileTap: { scale: 0.95 },
-    transition: { type: 'spring' as const, stiffness: 150, damping: 15, mass: 0.1 },
-    className: `${baseStyles} ${variants[variant]} ${className}`,
+    onPointerDown: handlePressStart,
+    onPointerUp: handlePressEnd,
+    className: classes,
   };
 
-  // href renders through next/link directly (no legacyBehavior/passHref —
-  // unnecessary since Next.js 13, and it's what made this component
-  // impossible to use as a real form submit control).
   if (href) {
     return (
-      <MotionLink href={href} {...motionProps}>
+      <Link href={href} ref={ref as React.Ref<HTMLAnchorElement>} {...sharedProps}>
         <span className="relative z-10 flex items-center gap-2">{children}</span>
-      </MotionLink>
+      </Link>
     );
   }
 
   return (
-    <motion.button type={type} onClick={onClick} disabled={disabled} {...motionProps}>
+    <button ref={ref as React.Ref<HTMLButtonElement>} type={type} onClick={onClick} disabled={disabled} {...sharedProps}>
       <span className="relative z-10 flex items-center gap-2">{children}</span>
-    </motion.button>
+    </button>
   );
 }

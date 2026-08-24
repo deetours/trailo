@@ -21,9 +21,9 @@ const roundedClass = {
  */
 export default function Card({ href, className, children, hover = true, rounded = '2xl' }: CardProps) {
   const classes = cn(
-    'bg-[#111] border border-[#222]',
+    'bg-card border border-border',
     roundedClass[rounded],
-    hover && 'hover:border-[#444] transition-colors',
+    hover && 'hover:border-[var(--muted-foreground)] transition-colors',
     className
   );
 

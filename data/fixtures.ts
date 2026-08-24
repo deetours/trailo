@@ -1,4 +1,4 @@
-import { Trip, Destination, Experience, Stay, MapPoint } from '../types';
+import { Trip } from '../types';
 
 export const mockTrips: Trip[] = [
   {
@@ -74,96 +74,10 @@ export const mockTrips: Trip[] = [
         route: 'Jobra → Chika',
         activities: ['Drive to trailhead', 'Short acclimatization trek'],
         notes: 'Gentle first day through pine forest alongside the Rani Nallah.'
-      },
-      {
-        day: 2,
-        title: 'Chika to Balu ka Ghera',
-        route: 'Chika → Balu ka Ghera',
-        activities: ['River crossing', 'Alpine meadow trek'],
-        notes: 'Long climb with views back toward the Pir Panjal range.'
-      },
-      {
-        day: 3,
-        title: 'Cross Hampta Pass to Shea Goru',
-        route: 'Balu ka Ghera → Hampta Pass (4270m) → Shea Goru',
-        activities: ['Summit push', 'Descent into the Lahaul side'],
-        notes: 'The landscape flips from green to cold desert within a few hours.'
-      },
-      {
-        day: 4,
-        title: 'Shea Goru to Chatru',
-        route: 'Shea Goru → Chatru',
-        activities: ['Final descent', 'Optional side trip toward Chandratal'],
-      },
-      {
-        day: 5,
-        title: 'Chatru to Manali',
-        route: 'Chatru → Rohtang Pass → Manali',
-        activities: ['Drive back over Rohtang Pass'],
-        notes: 'Trek ends; onward journey to Spiti is possible from Chatru instead.'
       }
     ],
     includedStays: [],
     relatedDestinations: ['d1'],
     relatedExperiences: ['e1']
-  }
-];
-
-export const mockDestinations: Destination[] = [
-  {
-    id: 'd1',
-    name: 'Spiti Valley',
-    slug: 'spiti-valley',
-    region: 'Himachal Pradesh',
-    description: 'A cold desert mountain valley located high in the Himalayas.',
-    heroMedia: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&q=80',
-    gallery: [],
-    bestTime: 'May to October',
-    relatedTrips: ['t2'],
-    relatedTrails: [],
-    relatedStays: ['s1']
-  }
-];
-
-export const mockStays: Stay[] = [
-  {
-    id: 's1',
-    name: 'Spiti Heritage Homestay',
-    slug: 'spiti-heritage-homestay',
-    location: 'Kaza, Spiti',
-    type: 'Homestay',
-    media: 'https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&fit=crop&q=80',
-    description: 'Authentic Spitian hospitality in a traditional mud-brick home.',
-    externalStayoUrl: 'https://stayo.girivah.com/spiti-heritage'
-  }
-];
-
-export const mockExperiences: Experience[] = [
-  {
-    id: 'e1',
-    title: 'High Altitude Stargazing',
-    slug: 'high-altitude-stargazing',
-    category: 'Nature',
-    description: 'Experience the Milky Way like never before at 4000m.',
-    media: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80',
-    relatedDestination: 'd1'
-  }
-];
-
-export const mockMapPoints: MapPoint[] = [
-  {
-    id: 'm1',
-    type: 'stay',
-    lat: 32.2235,
-    lng: 78.0734,
-    refId: 's1',
-    name: 'Spiti Heritage Homestay'
-  },
-  {
-    id: 'm2',
-    type: 'viewpoint',
-    lat: 32.3235,
-    lng: 78.1734,
-    name: 'Key Monastery Viewpoint'
   }
 ];

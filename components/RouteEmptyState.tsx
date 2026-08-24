@@ -1,6 +1,7 @@
 interface RouteEmptyStateProps {
   message: string;
   className?: string;
+  action?: React.ReactNode;
 }
 
 /**
@@ -8,11 +9,11 @@ interface RouteEmptyStateProps {
  * motif instead of bare placeholder text, so an unconfigured section still
  * looks like part of the product rather than a broken one.
  */
-export default function RouteEmptyState({ message, className = '' }: RouteEmptyStateProps) {
+export default function RouteEmptyState({ message, className = '', action }: RouteEmptyStateProps) {
   return (
-    <div className={`relative flex items-center justify-center overflow-hidden bg-[#111] ${className}`}>
+    <div className={`relative flex flex-col items-center justify-center overflow-hidden bg-muted/30 ${className}`}>
       <svg
-        className="absolute inset-0 w-full h-full opacity-[0.08]"
+        className="absolute inset-0 w-full h-full opacity-10"
         viewBox="0 0 1000 200"
         preserveAspectRatio="none"
         aria-hidden="true"
@@ -20,14 +21,17 @@ export default function RouteEmptyState({ message, className = '' }: RouteEmptyS
         <path
           d="M 0,140 C 200,60 400,180 600,80 C 750,20 850,120 1000,60"
           fill="none"
-          stroke="#ffffff"
+          stroke="currentColor"
           strokeWidth="3"
           strokeLinecap="round"
         />
       </svg>
-      <p className="relative z-10 text-[#888] font-mono text-sm border border-[#222] bg-black/40 backdrop-blur px-4 py-2 rounded max-w-xs text-center">
-        {message}
-      </p>
+      <div className="relative z-10 flex flex-col items-center gap-4">
+        <p className="text-muted-foreground font-mono text-sm border border-border bg-background/40 backdrop-blur px-4 py-2 rounded max-w-xs text-center">
+          {message}
+        </p>
+        {action}
+      </div>
     </div>
   );
 }

@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${bigShouldersDisplay.variable} ${geistMono.variable} h-full antialiased`}
+      className={`dark ${inter.variable} ${bigShouldersDisplay.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-screen bg-background text-foreground selection:bg-white selection:text-black">
         <SmoothScroll>

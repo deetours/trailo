@@ -3,22 +3,22 @@ import SiteFooter from '@/components/SiteFooter';
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] w-full pt-20">
+    <main className="min-h-screen bg-background w-full pt-20">
       <SiteHeader />
       <div className="container mx-auto px-6 py-32 max-w-3xl">
-        <h1 className="font-display font-bold text-5xl md:text-7xl text-white tracking-tighter mb-8">
+        <h1 className="font-display font-bold text-5xl md:text-7xl text-foreground tracking-tighter mb-8">
           About Trailo
         </h1>
-        <div className="prose prose-invert prose-lg text-[#888]">
+        <div className="prose prose-invert prose-lg text-muted-foreground">
           <p>
-            Trailo was built because we were tired of planning incredible journeys using tools designed for office work.
+            Trailo was built because we saw trip organizers wasting hours wrestling with website builders instead of designing incredible journeys.
           </p>
           <p>
-            A road trip shouldn&apos;t live in a spreadsheet. A trek shouldn&apos;t be scattered across three group chats and a notes app. 
-            We wanted one place that held the entire arc of the trip—from the initial spark of an idea, to the packing list, to the route map, to the memory of it afterward.
+            Your trips shouldn&apos;t live in a messy Google Doc, and you shouldn&apos;t need to hire a developer just to list a new itinerary. 
+            We wanted one place that lets you define the entire arc of your trip—the story, the day-by-day, the pricing, and the policies—and instantly generates a beautiful, branded landing page ready to share with clients.
           </p>
           <p>
-            We are part of the Girivah ecosystem, dedicated to building software that gets you offline and outside.
+            We are part of the Girivah ecosystem, dedicated to building software that helps travel businesses thrive.
           </p>
         </div>
       </div>
