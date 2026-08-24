@@ -34,7 +34,7 @@ export default function BrandedPages() {
   return (
     <section className="py-24 px-6 md:px-10 bg-background border-t border-border">
       <div className="max-w-7xl mx-auto w-full">
-        <Reveal>
+        <Reveal variant="clip">
           <p className="eyebrow mb-4 text-center">BRAND KIT → EVERY PAGE</p>
           <h2 className="text-display-lg font-bold text-center mb-6 max-w-3xl mx-auto">
             Set your brand once. It shows up on every trip you publish.
@@ -46,7 +46,7 @@ export default function BrandedPages() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
           {brands.map((brand, i) => (
-            <Reveal key={brand.name} delay={0.1 * i} className="w-full">
+            <Reveal key={brand.name} delay={0.1 * i} className="w-full" variant="scale">
               <TiltCard className="w-full">
                 <ProductFrame url={`t/${brand.name.toLowerCase().split(' ')[0]}/trip`} className="w-full shadow-2xl">
                   <div className="w-full h-96 flex flex-col items-center">

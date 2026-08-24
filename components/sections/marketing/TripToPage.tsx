@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { gsap, useGSAP } from '@/lib/gsap';
-import { EASE } from '@/lib/motion';
+import { EASE, DURATION, STAGGER } from '@/lib/motion';
 import ProductFrame from '@/components/visuals/ProductFrame';
 
 export default function TripToPage() {
@@ -86,18 +86,37 @@ export default function TripToPage() {
     });
 
     ctx.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
-      gsap.from([leftPanel.current, rightPanel.current], {
-        x: (index) => index === 0 ? -24 : 24,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.12,
-        ease: EASE.out,
+      gsap.set([lTitle.current, lChips.current, lTiers.current!.children], { filter: 'blur(10px)', opacity: 0 });
+      gsap.set(rMedia.current, { scale: 0.95, opacity: 0 });
+      gsap.set(rTiers.current!.children, { y: 20, opacity: 0 });
+      gsap.set(rPill.current, { clipPath: 'inset(0 100% 0 0)' });
+      gsap.set(rStatusLive.current, { opacity: 0, filter: 'blur(2px)' });
+
+      const lTl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 78%',
+          trigger: leftPanel.current,
+          start: 'top 75%',
           once: true,
-        },
+        }
       });
+      lTl.to(lTitle.current, { filter: 'blur(0px)', opacity: 1, duration: DURATION.base, ease: EASE.out });
+      lTl.to(lChips.current, { filter: 'blur(0px)', opacity: 1, duration: DURATION.base, ease: EASE.out }, "-=0.55");
+      lTl.to(lTiers.current!.children, { filter: 'blur(0px)', opacity: 1, stagger: STAGGER.tight, duration: DURATION.base, ease: EASE.out }, "-=0.55");
+
+      const rTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: rightPanel.current,
+          start: 'top 75%',
+          once: true,
+        }
+      });
+      rTl.to(rMedia.current, { scale: 1, opacity: 1, duration: DURATION.base, ease: EASE.out });
+      rTl.to(rTiers.current!.children, { y: 0, opacity: 1, stagger: STAGGER.tight, duration: DURATION.base, ease: EASE.out }, "-=0.55");
+      rTl.to(rPill.current, { clipPath: 'inset(0 0% 0 0)', duration: DURATION.base, ease: EASE.out }, "-=0.55");
+      
+      rTl.to(rStatus.current, { backgroundColor: 'var(--success)', color: 'var(--success-foreground)', duration: DURATION.fast, ease: EASE.out }, "status");
+      rTl.to(rStatusDraft.current, { opacity: 0, filter: 'blur(2px)', duration: DURATION.fast, ease: EASE.out }, "status");
+      rTl.to(rStatusLive.current, { opacity: 1, filter: 'blur(0px)', duration: DURATION.fast, ease: EASE.out }, "status");
     });
 
     return () => ctx.revert();

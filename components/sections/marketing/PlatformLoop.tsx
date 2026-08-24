@@ -33,7 +33,7 @@ export default function PlatformLoop() {
   return (
     <section id="platform" className="py-24 px-6 md:px-10 bg-background relative border-t border-border">
       <div className="max-w-7xl mx-auto w-full">
-        <Reveal>
+        <Reveal variant="clip">
           <p className="eyebrow mb-4 text-center">THE TRAILO LOOP</p>
           <h2 className="text-display-lg font-bold text-center mb-6 max-w-3xl mx-auto">
             One system, from first draft to full season.
@@ -43,7 +43,12 @@ export default function PlatformLoop() {
           </p>
         </Reveal>
 
-        <div className="relative">
+        <div className="relative pl-6 lg:pl-0">
+          {/* Mobile Connector Line */}
+          <div className="absolute left-0 top-2 bottom-2 w-[2px] lg:hidden z-0" aria-hidden="true">
+            <RouteLine mode="scrub" className="w-full h-full" />
+          </div>
+
           {/* Background Connector Line */}
           <div className="absolute top-6 left-[12.5%] right-[12.5%] h-px hidden lg:block z-0">
             <RouteLine mode="scrub" className="h-[2px]" />

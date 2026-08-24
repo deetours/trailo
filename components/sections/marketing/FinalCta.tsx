@@ -8,15 +8,22 @@ import MagneticButton from '@/components/MagneticButton';
 import ContourField from '@/components/visuals/ContourField';
 
 export default function FinalCta() {
+  const sectionRef = useRef<HTMLElement>(null);
   const glow = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    let ctx = gsap.matchMedia();
+    const ctx = gsap.matchMedia();
 
     ctx.add("(prefers-reduced-motion: no-preference)", () => {
       // Slow ambient breathing on the last conversion moment of the page —
       // rare/high-emotion surface, so a longer looping beat is in budget.
       gsap.to(glow.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          toggleActions: 'play pause resume pause'
+        },
         scale: 1.08,
         opacity: 0.22,
         duration: DURATION.ambient,
@@ -27,10 +34,10 @@ export default function FinalCta() {
     });
 
     return () => ctx.revert();
-  }, {});
+  }, { scope: sectionRef });
 
   return (
-    <section className="relative py-32 px-6 md:px-10 border-t border-border overflow-hidden">
+    <section ref={sectionRef} className="relative py-32 px-6 md:px-10 border-t border-border overflow-hidden">
       <ContourField tone="accent" density="low" className="opacity-30" />
 
       {/* Radial glow */}

@@ -15,7 +15,7 @@ export default function Hero() {
   const subs = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    let ctx = gsap.matchMedia();
+    const ctx = gsap.matchMedia();
 
     ctx.add("(prefers-reduced-motion: no-preference)", () => {
       // clipPath wipe for H1
@@ -32,6 +32,19 @@ export default function Hero() {
         stagger: 0.1,
         ease: EASE.out,
         delay: 0.4
+      });
+
+      // scrub out on scroll
+      gsap.to(subs.current, {
+        scrollTrigger: {
+          trigger: container.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+        opacity: 0,
+        filter: 'blur(10px)',
+        ease: EASE.inOut,
       });
     });
 

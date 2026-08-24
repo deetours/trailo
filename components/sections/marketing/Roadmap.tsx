@@ -16,6 +16,9 @@ export default function Roadmap() {
           </p>
           
           <div className="relative flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
+            <div className="absolute left-1/2 top-[15%] bottom-[15%] w-[2px] sm:hidden -z-10" aria-hidden="true">
+              <RouteLine mode="onEnter" className="w-full h-full" />
+            </div>
             <div className="absolute top-1/2 left-[35%] right-[35%] h-[2px] hidden sm:block -z-10" aria-hidden="true">
               <RouteLine mode="onEnter" className="h-[2px]" />
             </div>
