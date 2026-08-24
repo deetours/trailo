@@ -5,8 +5,6 @@ import { gsap, useGSAP } from '@/lib/gsap';
 import { MessageCircle, Smartphone, Table, FileText, Mail } from 'lucide-react';
 import ContourField from '@/components/visuals/ContourField';
 import Reveal from '@/components/motion/Reveal';
-import { useReducedMotion } from '@/components/motion/useReducedMotion';
-import { useMediaQuery } from '@/components/motion/useMediaQuery';
 
 const fragments = [
   { icon: MessageCircle, label: 'WhatsApp Threads', x: -200, y: -150, rotate: -15 },
@@ -19,9 +17,6 @@ const fragments = [
 export default function BusinessReality() {
   const container = useRef<HTMLDivElement>(null);
   const chipsRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
-  const isMobile = useMediaQuery('(max-width: 767px)');
-  const useStackedLayout = reduceMotion || isMobile;
 
   useGSAP(() => {
     if (!chipsRef.current) return;
@@ -82,22 +77,26 @@ export default function BusinessReality() {
         </Reveal>
 
         <div
-          className={`relative w-full flex items-center justify-center mb-16 ${useStackedLayout ? 'flex-wrap py-4' : 'h-[300px]'}`}
+          className="relative w-full flex flex-wrap items-center justify-center py-4 mb-16 md:motion-safe:flex-nowrap md:motion-safe:py-0 md:motion-safe:h-[300px]"
           ref={chipsRef}
         >
-          {fragments.map((frag, i) => {
+          {fragments.map((frag) => {
             const Icon = frag.icon;
-            // Below md, or with reduced motion, the scroll-scatter animation never
-            // registers (see the matchMedia query above) — render the same stacked
-            // fallback in both cases instead of leaving raw ±250px offsets on screen.
-            const style = useStackedLayout ? {} : {
-              transform: `translate(${frag.x}px, ${frag.y}px) rotate(${frag.rotate}deg)`,
-            };
+            // Scatter positioning applies purely via the md:motion-safe: CSS
+            // variant below — kept in sync with the gsap.matchMedia queries in
+            // useGSAP so layout and animation always agree on which mode is
+            // active. No JS-resolved viewport state, no post-mount relayout
+            // for ScrollTrigger to get stale positions from.
+            const style = {
+              '--frag-x': `${frag.x}px`,
+              '--frag-y': `${frag.y}px`,
+              '--frag-rotate': `${frag.rotate}deg`,
+            } as React.CSSProperties;
 
             return (
               <div
                 key={frag.label}
-                className={`fragment-chip ${useStackedLayout ? 'relative m-2 inline-flex' : 'absolute'} items-center gap-2 bg-card border border-border px-4 py-3 rounded-xl shadow-xl`}
+                className="fragment-chip relative m-2 inline-flex md:motion-safe:absolute md:motion-safe:m-0 md:motion-safe:[transform:translate(var(--frag-x),var(--frag-y))_rotate(var(--frag-rotate))] items-center gap-2 bg-card border border-border px-4 py-3 rounded-xl shadow-xl"
                 style={style}
               >
                 <Icon size={18} className="text-muted-foreground" />
