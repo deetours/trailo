@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { gsap, useGSAP } from '@/lib/gsap';
+import { EASE } from '@/lib/motion';
 import ProductFrame from '@/components/visuals/ProductFrame';
 
 export default function TripToPage() {
@@ -30,7 +31,7 @@ export default function TripToPage() {
   const progressFill = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    let ctx = gsap.matchMedia();
+    const ctx = gsap.matchMedia();
 
     ctx.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
       // Set initial states for animation
@@ -82,6 +83,21 @@ export default function TripToPage() {
 
       // 0.90 - 1.0: hold
       tl.to({}, { duration: 0.1 });
+    });
+
+    ctx.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+      gsap.from([leftPanel.current, rightPanel.current], {
+        x: (index) => index === 0 ? -24 : 24,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: EASE.out,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 78%',
+          once: true,
+        },
+      });
     });
 
     return () => ctx.revert();

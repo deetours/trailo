@@ -25,7 +25,7 @@ export default function BusinessReality() {
 
   useGSAP(() => {
     if (!chipsRef.current) return;
-    let ctx = gsap.matchMedia();
+    const ctx = gsap.matchMedia();
 
     ctx.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
       const chips = gsap.utils.toArray<HTMLElement>('.fragment-chip', chipsRef.current);
@@ -45,6 +45,24 @@ export default function BusinessReality() {
         opacity: 0, // Fully fade out
         stagger: 0,
         ease: 'power2.out',
+      });
+    });
+
+    ctx.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+      const chips = gsap.utils.toArray<HTMLElement>('.fragment-chip', chipsRef.current);
+
+      gsap.from(chips, {
+        y: 18,
+        scale: 0.96,
+        opacity: 0,
+        duration: 0.65,
+        stagger: 0.08,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: chipsRef.current,
+          start: 'top 82%',
+          once: true,
+        },
       });
     });
 
