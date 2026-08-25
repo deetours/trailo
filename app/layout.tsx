@@ -18,6 +18,7 @@ const bigShouldersDisplay = Big_Shoulders({
   weight: "variable",
   axes: ["opsz"],
   display: 'swap',
+  adjustFontFallback: false,
 });
 
 const geistMono = Geist_Mono({

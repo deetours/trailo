@@ -134,7 +134,7 @@ export default function TripPageEditorPage({
       {landingPage && (
         <ThemeSelector 
           landingPage={landingPage} 
-          onUpdate={(theme) => updateTheme(landingPage.id, theme)} 
+          onUpdate={async (theme) => { await updateTheme(landingPage.id, theme); }}
           disabled={isGenerating}
         />
       )}
