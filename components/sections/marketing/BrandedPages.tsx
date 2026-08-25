@@ -47,7 +47,7 @@ const brands: Brand[] = [
     photo: 'https://images.unsplash.com/photo-1520696773539-71285223c683?auto=format&fit=crop&q=80',
   },
   {
-    name: 'Northline Overland',
+    name: 'Ridgeline Expeditions',
     color: '#2A9D8F',
     trip: 'Spiti Valley Circuit',
     duration: '8 Days',

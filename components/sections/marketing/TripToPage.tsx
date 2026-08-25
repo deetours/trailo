@@ -135,7 +135,10 @@ export default function TripToPage() {
 
       <div className="min-h-screen flex flex-col justify-center py-20 px-6 md:px-10 w-full">
         <div className="text-center mb-12">
-          <p className="eyebrow mb-4">AUTOMATED PUBLISHING</p>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="w-3 h-3 rounded-full shrink-0 bg-accent" aria-hidden="true" />
+            <span className="eyebrow tracking-widest">PUBLISH</span>
+          </div>
           <h2 className="text-display-md font-bold max-w-2xl mx-auto">
             Your editor on the left. The live page on the right. Linked in real-time.
           </h2>

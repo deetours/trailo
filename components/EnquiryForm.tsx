@@ -34,18 +34,18 @@ export default function EnquiryForm({ referenceId, context = 'General Enquiry' }
 
   if (isSubmitSuccessful) {
     return (
-      <div className="bg-[#111] border border-green-500/30 p-8 rounded-2xl text-center">
-        <h3 className="text-xl font-bold text-white mb-2">Message Sent</h3>
-        <p className="text-[#888]">Our expedition team will contact you shortly.</p>
+      <div className="bg-card border border-success/30 p-8 rounded-2xl text-center">
+        <h3 className="text-xl font-bold text-foreground mb-2">Message sent</h3>
+        <p className="text-muted-foreground">Thanks — we usually reply within one business day.</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-[#0a0a0a] border border-[#222] p-6 rounded-2xl">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-card border border-border p-6 rounded-2xl">
       <div>
-        <h3 className="font-display font-bold text-2xl text-white mb-2">{context}</h3>
-        <p className="text-[#888] text-sm">Tell us what you&apos;re looking for, and we&apos;ll craft the perfect experience.</p>
+        <h3 className="font-display font-bold text-2xl text-foreground mb-2">{context}</h3>
+        <p className="text-muted-foreground text-sm">Tell us about your business and what you need — we&apos;ll get back to you with next steps.</p>
       </div>
 
       <div className="space-y-4">
@@ -53,9 +53,9 @@ export default function EnquiryForm({ referenceId, context = 'General Enquiry' }
           <input
             {...register('name')}
             placeholder="Your Name"
-            className="w-full bg-[#111] border border-[#333] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
+            className="w-full bg-background border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-accent transition-colors"
           />
-          {errors.name && <span className="text-red-500 text-xs mt-1">{errors.name.message}</span>}
+          {errors.name && <span className="text-destructive text-xs mt-1">{errors.name.message}</span>}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -63,15 +63,15 @@ export default function EnquiryForm({ referenceId, context = 'General Enquiry' }
             <input
               {...register('email')}
               placeholder="Email Address"
-              className="w-full bg-[#111] border border-[#333] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
+              className="w-full bg-background border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-accent transition-colors"
             />
-            {errors.email && <span className="text-red-500 text-xs mt-1">{errors.email.message}</span>}
+            {errors.email && <span className="text-destructive text-xs mt-1">{errors.email.message}</span>}
           </div>
           <div>
             <input
               {...register('phone')}
               placeholder="Phone Number (Optional)"
-              className="w-full bg-[#111] border border-[#333] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
+              className="w-full bg-background border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-accent transition-colors"
             />
           </div>
         </div>
@@ -79,18 +79,18 @@ export default function EnquiryForm({ referenceId, context = 'General Enquiry' }
         <div>
           <textarea
             {...register('message')}
-            placeholder="Tell us about your ideal trip..."
+            placeholder="Tell us about your business and what you're looking to do on Trailo..."
             rows={4}
-            className="w-full bg-[#111] border border-[#333] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors resize-none"
+            className="w-full bg-background border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-accent transition-colors resize-none"
           />
-          {errors.message && <span className="text-red-500 text-xs mt-1">{errors.message.message}</span>}
+          {errors.message && <span className="text-destructive text-xs mt-1">{errors.message.message}</span>}
         </div>
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-white text-black font-bold uppercase tracking-widest text-sm py-4 rounded-lg hover:bg-white/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+        className="w-full bg-primary text-primary-foreground font-bold uppercase tracking-widest text-sm py-4 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
       >
         {isSubmitting ? 'Sending...' : 'Send Enquiry'}
         <Send size={16} />

@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Link from 'next/link';
 import { gsap, useGSAP } from '@/lib/gsap';
 import { EASE, DURATION } from '@/lib/motion';
 import Reveal from '@/components/motion/Reveal';
@@ -40,7 +41,7 @@ export default function FinalCta() {
   return (
     <section ref={sectionRef} className="relative py-32 px-6 md:px-10 border-t border-border overflow-hidden">
       <div ref={contour} className="absolute inset-0 opacity-60">
-        <ContourField tone="accent" density="low" className="opacity-40" />
+        <ContourField tone="accent" density="low" />
       </div>
 
       <div className="max-w-3xl mx-auto text-center relative z-10">
@@ -49,13 +50,14 @@ export default function FinalCta() {
             Your first trip page can be live before your next trip fills up.
           </h2>
           <p className="text-body-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-            Free to start. Trip details in, hosted page out. No developer, no designer.
+            <Link href="/pricing" className="text-foreground hover:text-accent transition-colors underline underline-offset-4">Free to start</Link>. Trip details in, hosted page out. No developer, no designer.
           </p>
           
-          <div className="flex flex-col items-center gap-6">
-            <MagneticButton href="/register" variant="primary" className="px-10 py-5 text-lg shadow-xl shadow-accent/20">
+          <div className="flex flex-col items-center gap-4">
+            <MagneticButton href="/register" variant="accent" className="px-10 py-5 text-lg">
               Register your business
             </MagneticButton>
+            <p className="text-caption text-muted-foreground">5 steps, ~4 minutes · verification optional</p>
             <a href="/contact" className="text-sm font-medium text-muted-foreground hover:text-accent transition-colors">
               Talk to us first →
             </a>

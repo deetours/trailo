@@ -14,11 +14,12 @@ interface MagneticButtonProps {
   type?: 'button' | 'submit';
   disabled?: boolean;
   className?: string;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'accent' | 'secondary' | 'outline';
 }
 
 const variantMap = {
   primary: 'default',
+  accent: 'accent',
   secondary: 'secondary',
   outline: 'outline',
 } as const;
@@ -77,6 +78,7 @@ export default function MagneticButton({
     buttonVariants({ variant: variantMap[variant], size: 'lg' }),
     'rounded-full h-auto px-6 py-3 text-sm font-medium',
     variant === 'primary' && 'shadow-[0_0_20px_color-mix(in_srgb,var(--primary)_15%,transparent)]',
+    variant === 'accent' && 'shadow-[0_0_20px_color-mix(in_srgb,var(--accent)_35%,transparent)]',
     className
   );
 

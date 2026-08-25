@@ -2,21 +2,24 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 import Logo from './Logo';
 import { useReducedMotion } from '@/components/motion/useReducedMotion';
 
-const navLinks = [
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
-  { href: '#platform', label: 'Platform' },
-];
-
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
+  const platformHref = pathname === '/' ? '#platform' : '/#platform';
+
+  const navLinks = [
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/contact', label: 'Contact' },
+    { href: platformHref, label: 'Platform' },
+  ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -45,7 +48,7 @@ export default function SiteHeader() {
           <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden md:block">
             Log in
           </Link>
-          <MagneticButton href="/register" variant="primary">
+          <MagneticButton href="/register" variant="accent">
             Register your business
           </MagneticButton>
 

@@ -12,7 +12,7 @@ export default function ContourField({
   density = 'high'
 }: ContourFieldProps) {
   const strokeColor = tone === 'accent' ? 'var(--accent)' : 'var(--muted-foreground)';
-  const opacity = tone === 'accent' ? 0.05 : 0.03;
+  const opacity = tone === 'accent' ? 0.16 : 0.1;
 
   return (
     <div 

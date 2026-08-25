@@ -52,32 +52,35 @@ export default function Hero() {
 
   return (
     <section ref={container} className="relative min-h-[90vh] flex items-center pt-24 pb-12 px-6 md:px-10 overflow-hidden">
-      <ContourField tone="accent" className="opacity-50" />
+      <ContourField tone="accent" className="opacity-90" />
       
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 xl:grid-cols-[1fr_500px] gap-12 items-center">
         {/* Left side */}
         <div className="max-w-2xl relative z-10" ref={subs}>
-          <p className="eyebrow mb-6 stagger-item">FOR OPERATORS WHO SELL JOURNEYS</p>
+          <p className="eyebrow mb-6 stagger-item">THE OPERATING SYSTEM FOR TRIP ORGANIZERS</p>
 
           <h1
             ref={headline}
             className="text-display-xl lg:text-display-lg xl:text-display-xl font-black tracking-tight mb-6 relative"
           >
-            You build the journeys.<br />Trailo builds the business around them.
+            You run the trip.<br />Trailo runs the tension out of it.
           </h1>
-          
+
           <p className="text-body-lg text-muted-foreground max-w-xl mb-8 stagger-item">
-            Trip details in, branded page out. Hosted and ready to share. The publishing layer of the business system we're building around every trip you run.
+            Bookings, payments, branded pages, updates: the entire business layer behind every trip, handled in one calm system instead of five scattered ones.
           </p>
           
           <div className="flex flex-wrap items-center gap-6 stagger-item">
-            <MagneticButton href="/register" variant="primary" className="px-8 py-4 text-base">
+            <MagneticButton href="/register" variant="accent" className="px-8 py-4 text-base">
               Register your business
             </MagneticButton>
             <a href="#platform" className="text-sm font-medium hover:text-accent transition-colors">
               See the platform ↓
             </a>
           </div>
+          <p className="text-caption text-muted-foreground mt-4 stagger-item">
+            5 steps, ~4 minutes · verification optional
+          </p>
         </div>
 
         {/* Right side floating UI — a real generated trip page, not a wireframe.

@@ -1,16 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Loader2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { gsap, useGSAP } from '@/lib/gsap';
+import { EASE, DURATION } from '@/lib/motion';
 import { authService } from '@/lib/api/auth/mock/mock-adapter';
 import { businessService } from '@/lib/api/business/mock/mock-adapter';
 import StepProgress, { REGISTER_STEPS } from '@/components/auth/register/StepProgress';
 import VerificationDocumentUploader, { type PendingDocument } from '@/components/verification/VerificationDocumentUploader';
+import ProductFrame from '@/components/visuals/ProductFrame';
 import type { BusinessEntityType } from '@/types/business';
 
 const ENTITY_TYPES: { value: BusinessEntityType; label: string }[] = [
@@ -48,10 +51,12 @@ const STEP_FIELDS: Record<number, (keyof RegisterFormData)[]> = {
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
+  const [direction, setDirection] = useState<'forward' | 'back'>('forward');
   const [documents, setDocuments] = useState<PendingDocument[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const router = useRouter();
+  const stepContentRef = useRef<HTMLDivElement>(null);
 
   const { register, handleSubmit, trigger, watch, formState: { errors } } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -59,14 +64,37 @@ export default function RegisterPage() {
   });
 
   const entityType = watch('entityType');
+  const primaryColor = watch('primaryColor');
+  const secondaryColor = watch('secondaryColor');
+
+  useGSAP(() => {
+    if (!stepContentRef.current) return;
+    const ctx = gsap.matchMedia();
+
+    ctx.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.fromTo(
+        stepContentRef.current,
+        { opacity: 0, x: direction === 'forward' ? 24 : -24 },
+        { opacity: 1, x: 0, duration: DURATION.base, ease: EASE.out }
+      );
+    });
+
+    return () => ctx.revert();
+  }, { dependencies: [step], scope: stepContentRef });
 
   const goNext = async () => {
     const fields = STEP_FIELDS[step];
     const valid = fields.length === 0 ? true : await trigger(fields);
-    if (valid) setStep(s => Math.min(s + 1, REGISTER_STEPS.length));
+    if (valid) {
+      setDirection('forward');
+      setStep(s => Math.min(s + 1, REGISTER_STEPS.length));
+    }
   };
 
-  const goBack = () => setStep(s => Math.max(s - 1, 1));
+  const goBack = () => {
+    setDirection('back');
+    setStep(s => Math.max(s - 1, 1));
+  };
 
   const onSubmit = async (data: RegisterFormData) => {
     setSubmitError(null);
@@ -119,11 +147,15 @@ export default function RegisterPage() {
         <p className="text-muted-foreground">
           Set up your business, verify your identity, and start publishing trips.
         </p>
+        <p className="text-caption text-muted-foreground mt-2">
+          5 steps, ~4 minutes · verification is optional and can be finished later
+        </p>
       </div>
 
       <StepProgress current={step} />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div ref={stepContentRef}>
         {step === 1 && (
           <div className="space-y-4">
             <div className="space-y-2">
@@ -202,27 +234,58 @@ export default function RegisterPage() {
             <p className="text-sm text-muted-foreground">
               Upload your verification documents now, or skip and submit them later from the verification center. Automated payouts and refunds stay locked until you&apos;re verified.
             </p>
+            <p className="text-xs text-muted-foreground/70">
+              Your documents are encrypted and only used for verification — see our{' '}
+              <Link href="/privacy" className="text-accent hover:underline">Privacy Policy</Link>.
+            </p>
             <VerificationDocumentUploader entityType={entityType} documents={documents} onChange={setDocuments} />
           </div>
         )}
 
         {step === 4 && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <p className="text-sm text-muted-foreground">Set your starting brand colors — you can refine your full brand kit later from Business Profile.</p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground block">Primary Color</label>
-                <div className="flex items-center gap-3">
-                  <input type="color" {...register('primaryColor')} className="w-12 h-12 rounded-lg border border-border bg-card cursor-pointer" />
-                  <input {...register('primaryColor')} className="flex-1 bg-card border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-accent transition-colors uppercase" />
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-6 items-start">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground block">Primary Color</label>
+                  <div className="flex items-center gap-3">
+                    <input type="color" {...register('primaryColor')} className="w-12 h-12 rounded-lg border border-border bg-card cursor-pointer" />
+                    <input {...register('primaryColor')} className="flex-1 bg-card border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-accent transition-colors uppercase" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground block">Secondary Color</label>
+                  <div className="flex items-center gap-3">
+                    <input type="color" {...register('secondaryColor')} className="w-12 h-12 rounded-lg border border-border bg-card cursor-pointer" />
+                    <input {...register('secondaryColor')} className="flex-1 bg-card border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-accent transition-colors uppercase" />
+                  </div>
                 </div>
               </div>
+
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground block">Secondary Color</label>
-                <div className="flex items-center gap-3">
-                  <input type="color" {...register('secondaryColor')} className="w-12 h-12 rounded-lg border border-border bg-card cursor-pointer" />
-                  <input {...register('secondaryColor')} className="flex-1 bg-card border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-accent transition-colors uppercase" />
-                </div>
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Live preview</span>
+                <ProductFrame url={`trailo.com/t/${(watch('displayName') || 'yourbusiness').toLowerCase().replace(/\s+/g, '-')}`}>
+                  <div className="w-full aspect-square flex flex-col" style={{ backgroundColor: secondaryColor }}>
+                    <div className="p-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        <div className="text-xs font-bold" style={{ color: primaryColor }}>
+                          {watch('displayName') || 'Your Business'}
+                        </div>
+                        <div className="text-[10px] mt-1 opacity-60" style={{ color: primaryColor }}>
+                          Sample Trip Name
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        className="w-full py-2 rounded-md text-[10px] font-bold uppercase tracking-wider"
+                        style={{ backgroundColor: primaryColor, color: secondaryColor }}
+                      >
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+                </ProductFrame>
               </div>
             </div>
           </div>
@@ -239,6 +302,7 @@ export default function RegisterPage() {
             {submitError && <p className="text-destructive text-sm">{submitError}</p>}
           </div>
         )}
+        </div>
 
         <div className="flex items-center justify-between pt-4">
           {step > 1 ? (
