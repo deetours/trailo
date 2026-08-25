@@ -39,7 +39,7 @@ export default function PlatformLoop() {
             One system, from first draft to full season.
           </h2>
           <p className="text-body-lg text-muted-foreground text-center max-w-2xl mx-auto mb-20">
-            Replace the scattered tools with a single operating system designed specifically for trips. Two stages are live today. Two are next.
+            Replace the scattered tools with one place for the whole trip — editor and hosted page, live today. Promotion and lead management are next.
           </p>
         </Reveal>
 
@@ -54,7 +54,7 @@ export default function PlatformLoop() {
             <RouteLine mode="scrub" className="h-[2px]" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.15fr_1.15fr_0.85fr_0.85fr] gap-8 relative z-10">
             {steps.map((step, i) => {
               const isLive = step.status === 'Live';
               return (
@@ -65,11 +65,11 @@ export default function PlatformLoop() {
                       <span className="eyebrow tracking-widest">{step.label}</span>
                     </div>
 
-                    <Card className={`p-6 flex-1 flex flex-col ${!isLive ? 'bg-transparent border-dashed' : ''}`}>
+                    <Card className={isLive ? 'p-7 flex-1 flex flex-col' : 'p-5 flex-1 flex flex-col bg-transparent border-dashed'}>
                       <div className={`mb-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider inline-block w-fit ${isLive ? 'bg-accent/10 text-accent' : 'bg-muted text-muted-foreground'}`}>
                         {step.status}
                       </div>
-                      <h3 className="text-lg font-bold mb-3">{step.title}</h3>
+                      <h3 className={isLive ? 'text-xl font-bold mb-3' : 'text-base font-bold mb-3 text-muted-foreground'}>{step.title}</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {step.description}
                       </p>

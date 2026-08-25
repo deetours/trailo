@@ -7,7 +7,6 @@ import { EASE, DURATION } from '@/lib/motion';
 import MagneticButton from '@/components/MagneticButton';
 import ContourField from '@/components/visuals/ContourField';
 import ProductFrame from '@/components/visuals/ProductFrame';
-import { useReducedMotion } from '@/components/motion/useReducedMotion';
 
 export default function Hero() {
   const container = useRef<HTMLDivElement>(null);
@@ -68,7 +67,7 @@ export default function Hero() {
           </h1>
           
           <p className="text-body-lg text-muted-foreground max-w-xl mb-8 stagger-item">
-            Trip details in, branded page out — hosted and ready to share. The publishing layer of the business system we're building around every trip you run.
+            Trip details in, branded page out. Hosted and ready to share. The publishing layer of the business system we're building around every trip you run.
           </p>
           
           <div className="flex flex-wrap items-center gap-6 stagger-item">
@@ -81,8 +80,12 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right side floating UI — a real generated trip page, not a wireframe */}
-        <div className="hidden xl:block relative z-10 rotate-2">
+        {/* Right side floating UI — a real generated trip page, not a wireframe.
+            Bled slightly past the grid track (wider than its 500px column,
+            translated right) so it reads as spilling toward the edge of the
+            viewport rather than sitting as a fully-contained centered card;
+            the section's overflow-hidden clips it cleanly at the edge. */}
+        <div className="hidden xl:block relative z-10 rotate-3 xl:w-135 xl:translate-x-10">
           <ProductFrame url="t/apex/annapurna-circuit">
             <div className="w-full aspect-4/5 bg-card flex flex-col">
               <div className="relative h-48 w-full shrink-0">

@@ -8,5 +8,6 @@ export interface LandingPageService {
   publish(landingPageId: string): Promise<LandingPage>;
   unpublish(landingPageId: string): Promise<LandingPage>;
   regenerate(tripId: string): Promise<GenerationJob>;
+  updateTheme(landingPageId: string, theme: import('@/types/landing-page').LandingPageTheme): Promise<LandingPage>;
   subscribeToLandingPage(tripId: string, cb: (lp: LandingPage | null) => void): () => void;
 }

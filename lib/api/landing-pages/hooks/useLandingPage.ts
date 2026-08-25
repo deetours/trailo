@@ -15,5 +15,13 @@ export function useLandingPage(tripId: string) {
     return unsubscribe;
   }, [tripId]);
 
-  return { landingPage, isLoading, generate: landingPagesService.generate.bind(landingPagesService), regenerate: landingPagesService.regenerate.bind(landingPagesService), publish: landingPagesService.publish.bind(landingPagesService), unpublish: landingPagesService.unpublish.bind(landingPagesService) };
+  return { 
+    landingPage, 
+    isLoading, 
+    generate: landingPagesService.generate.bind(landingPagesService), 
+    regenerate: landingPagesService.regenerate.bind(landingPagesService), 
+    publish: landingPagesService.publish.bind(landingPagesService), 
+    unpublish: landingPagesService.unpublish.bind(landingPagesService),
+    updateTheme: landingPagesService.updateTheme.bind(landingPagesService)
+  };
 }

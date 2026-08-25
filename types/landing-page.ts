@@ -8,6 +8,11 @@ export interface LandingPageRevision {
   publishedAt?: string;
 }
 
+export interface LandingPageTheme {
+  layout: 'modern' | 'editorial' | 'bold';
+  primaryColor?: string;
+}
+
 export interface LandingPage {
   id: string;
   tripId: string;
@@ -16,6 +21,7 @@ export interface LandingPage {
   previewToken?: string;
   currentRevisionId?: string;
   revisions: LandingPageRevision[];
+  theme?: LandingPageTheme;
   createdAt: string;
   updatedAt: string;
 }

@@ -96,11 +96,11 @@ export default function BusinessReality() {
             return (
               <div
                 key={frag.label}
-                className="fragment-chip relative m-2 inline-flex md:motion-safe:absolute md:motion-safe:m-0 md:motion-safe:[transform:translate(var(--frag-x),var(--frag-y))_rotate(var(--frag-rotate))] items-center gap-2 bg-card border border-border px-4 py-3 rounded-xl shadow-xl"
+                className="fragment-chip relative m-3 inline-flex md:motion-safe:absolute md:motion-safe:m-0 md:motion-safe:[transform:translate(var(--frag-x),var(--frag-y))_rotate(var(--frag-rotate))] items-center gap-2"
                 style={style}
               >
-                <Icon size={18} className="text-muted-foreground" />
-                <span className="text-sm font-medium">{frag.label}</span>
+                <Icon size={18} className="text-muted-foreground/70" />
+                <span className="text-sm font-medium text-muted-foreground">{frag.label}</span>
               </div>
             );
           })}

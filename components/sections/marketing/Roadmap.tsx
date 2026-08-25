@@ -4,35 +4,31 @@ import { Mail } from 'lucide-react';
 
 export default function Roadmap() {
   return (
-    <section className="py-24 px-6 md:px-10 bg-card border-t border-dashed border-border text-center">
+    <section className="py-16 px-6 md:px-10 bg-card border-t border-dashed border-border">
       <div className="max-w-3xl mx-auto w-full">
         <Reveal>
-          <p className="eyebrow mb-4">WHAT'S NEXT</p>
-          <h2 className="text-display-lg font-bold mb-6">
-            The next layers of the operating system.
-          </h2>
-          <p className="text-body-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Publishing is live today. We're actively building the tools to turn those pages into businesses — a unified lead inbox, booking signals, and campaign tracking, all running from the same core system.
-          </p>
-          
-          <div className="relative flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-            <div className="absolute left-1/2 top-[15%] bottom-[15%] w-[2px] sm:hidden -z-10" aria-hidden="true">
-              <RouteLine mode="onEnter" className="w-full h-full" />
+          <div className="flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-12">
+            <div className="flex-1">
+              <p className="eyebrow mb-4">WHAT&apos;S NEXT</p>
+              <h2 className="text-display-md font-bold mb-4 max-w-lg">
+                Promote and Manage are next. Help decide what they do.
+              </h2>
+              <p className="text-body text-muted-foreground max-w-md mb-6">
+                Create and Publish are live. The next two stages turn pages into campaigns and leads into an inbox you can act on. We&apos;re shaping these based on conversations with early operators.
+              </p>
+              <a href="/contact" className="inline-flex items-center gap-2 text-sm font-bold hover:text-accent transition-colors">
+                Want to shape these? Talk to us <Mail size={16} />
+              </a>
             </div>
-            <div className="absolute top-1/2 left-[35%] right-[35%] h-[2px] hidden sm:block -z-10" aria-hidden="true">
-              <RouteLine mode="onEnter" className="h-[2px]" />
-            </div>
-            <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground bg-card pr-4">
-              <div className="w-2 h-2 rounded-full border border-muted-foreground bg-card" /> Promote
-            </div>
-            <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground bg-card pl-4">
-              <div className="w-2 h-2 rounded-full border border-muted-foreground bg-card" /> Manage
+
+            <div className="hidden sm:flex flex-col items-center gap-3 shrink-0 w-32" aria-hidden="true">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-accent">Live today</span>
+              <div className="w-0.5 h-16">
+                <RouteLine mode="onEnter" className="w-full h-full" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Shaping next</span>
             </div>
           </div>
-          
-          <a href="/contact" className="inline-flex items-center gap-2 text-sm font-bold hover:text-accent transition-colors">
-            Want to shape these? Talk to us <Mail size={16} />
-          </a>
         </Reveal>
       </div>
     </section>

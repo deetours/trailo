@@ -3,7 +3,7 @@
 import { use } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Settings, Tag, Map, Image as ImageIcon, CalendarDays, ShieldCheck, ExternalLink, ArrowLeft } from 'lucide-react';
+import { Settings, Tag, Map, Image as ImageIcon, CalendarDays, ShieldCheck, ExternalLink, ArrowLeft, Zap } from 'lucide-react';
 import { useTrip } from '@/lib/api/trips/hooks/useTrip';
 import { cn } from '@/lib/cn';
 import { useSession } from '@/lib/api/auth/hooks/useSession';
@@ -30,6 +30,7 @@ export default function TripEditorLayout({
     { href: `/dashboard/trips/${id}/media`, label: 'Media', icon: ImageIcon },
     { href: `/dashboard/trips/${id}/departures`, label: 'Departures', icon: CalendarDays },
     { href: `/dashboard/trips/${id}/policies`, label: 'Policies', icon: ShieldCheck },
+    { href: `/dashboard/trips/${id}/page`, label: 'Page', icon: Zap },
   ];
 
   if (isLoading || !trip) {
@@ -39,7 +40,7 @@ export default function TripEditorLayout({
   const generatedUrl = profile ? `/t/${profile.slug}/${trip.slug}` : '#';
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] -mt-6 md:-mt-10 -mx-6 md:-mx-10 bg-background text-foreground">
+    <div className="flex flex-col flex-1 h-full bg-background text-foreground overflow-hidden">
       {/* Editor Header */}
       <header className="h-16 px-6 border-b border-border flex items-center justify-between bg-card shrink-0">
         <div className="flex items-center gap-4">

@@ -11,7 +11,7 @@ export default function SiteFooter() {
             Trailo
           </Link>
           <p className="text-muted-foreground text-sm">
-            List your trips. We build the page.
+            Your trips, hosted and ready to share.
           </p>
         </div>
 

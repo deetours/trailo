@@ -19,6 +19,8 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
 
   --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
@@ -67,47 +69,51 @@
 }
 
 :root {
-
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-
-  --card: oklch(1 0 0);
-  --border: oklch(0.922 0 0);
-
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-
-  --destructive: oklch(0.577 0.245 27.325);
+  /* Trailo's actual brand — the site has always been dark-only (no toggle).
+     This used to be shadcn's unedited light-mode scaffold with the real
+     values shadowed in a separate .dark block; consolidated here since the
+     scaffold never rendered and .dark was permanently and exclusively active. */
+  --background: #0A0A0A;
+  --foreground: #EDEAE4;
+  --card: #111111;
+  --card-foreground: #EDEAE4;
+  --popover: #111111;
+  --popover-foreground: #EDEAE4;
+  --primary: #FFFFFF;
+  --primary-foreground: #000000;
+  --secondary: #18181B;
+  --secondary-foreground: #EDEAE4;
+  --muted: #18181B;
+  --muted-foreground: #9C988F;
+  --accent: #F2762E;
+  --accent-foreground: #170D05;
+  --destructive: #E5484D;
   --destructive-foreground: #FFFFFF;
-
   --success: #4ADE80;
   --success-foreground: #0A0A0A;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* Distinct from --accent so Attention's "orange" severity tier doesn't
+     visually double as a CTA/active-nav highlight — see docs/DASHBOARD_PLAN.md §17. */
+  --warning: #F0B429;
+  --warning-foreground: #1D1300;
+  --border: #222222;
+  --input: #222222;
+  --ring: #F2762E;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  /* Tighter than shadcn's 0.625rem default — a deliberate choice matched to
+     the condensed display type and the topographic/technical brand motif. */
+  --radius: 0.5rem;
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
 /* Ensure Lenis smooth scroll doesn't jump */
@@ -179,45 +185,4 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-.dark {
-  /* Trailo's actual brand — the site has always been dark-only (no toggle),
-     so this block (active via the permanent `dark` class on <html>) carries
-     the real identity. :root above keeps shadcn's generic light defaults as
-     an unused fallback rather than being overwritten with brand values. */
-  --background: #0A0A0A;
-  --foreground: #EDEAE4;
-  --card: #111111;
-  --card-foreground: #EDEAE4;
-  --popover: #111111;
-  --popover-foreground: #EDEAE4;
-  --primary: #FFFFFF;
-  --primary-foreground: #000000;
-  --secondary: #18181B;
-  --secondary-foreground: #EDEAE4;
-  --muted: #18181B;
-  --muted-foreground: #9C988F;
-  --accent: #F2762E;
-  --accent-foreground: #170D05;
-  --destructive: #E5484D;
-  --destructive-foreground: #FFFFFF;
-  --success: #4ADE80;
-  --success-foreground: #0A0A0A;
-  --border: #222222;
-  --input: #222222;
-  --ring: #F2762E;
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
 }

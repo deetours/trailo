@@ -8,7 +8,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, MapPin, Calendar, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-
+import { tripsService } from '@/lib/api/trips/mock/mock-adapter';
+import { useSession } from '@/lib/api/auth/hooks/useSession';
 const newTripSchema = z.object({
   name: z.string().min(2, 'Give your trip a name'),
   type: z.enum(['road', 'trek'], { message: 'Select a trip type' }),
@@ -21,6 +22,7 @@ type NewTripData = z.infer<typeof newTripSchema>;
 export default function NewTripPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const { session } = useSession();
 
   const {
     register,
@@ -40,10 +42,15 @@ export default function NewTripPage() {
   const onSubmit = async (data: NewTripData) => {
     setIsSubmitting(true);
     try {
-      // Mock creation — no backend yet, so return to the trips list rather than
-      // a workspace URL that can't resolve to a real trip.
-      await new Promise(resolve => setTimeout(resolve, 800));
-      router.push('/dashboard/trips');
+      const businessId = session?.businessId || 'b_123';
+      const trip = await tripsService.createTrip(businessId, {
+        name: data.name,
+        tripType: data.type === 'road' ? 'road-trip' : 'trek',
+        destinationRegion: data.destination,
+        durationDays: 7,
+        durationNights: 6,
+      });
+      router.push(`/dashboard/trips/${trip.id}/page`);
     } catch (error) {
       console.error('Error creating trip:', error);
     } finally {

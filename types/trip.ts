@@ -101,4 +101,4 @@ export interface Trip {
   updatedAt: string;
 }
 
-export type TripSection = 'basicInfo' | 'story' | 'itinerary' | 'media' | 'pricing' | 'logistics' | 'policies';
+export type TripSection = 'basicInfo' | 'story' | 'itinerary' | 'media' | 'pricing' | 'logistics' | 'policies' | 'page';

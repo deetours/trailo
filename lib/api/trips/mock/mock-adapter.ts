@@ -31,7 +31,7 @@ class MockTripsAdapter implements TripsService {
   }
 
   async listTrips(businessId: string, filters?: TripListFilters): Promise<TripListResult> {
-    let result = this.trips.filter(t => t.businessId === businessId);
+    let result = this.trips; // Return all mock trips regardless of session
     if (filters?.status && filters.status !== 'all') {
       result = result.filter(t => t.status === filters.status);
     }

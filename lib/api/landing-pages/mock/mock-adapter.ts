@@ -29,17 +29,20 @@ class MockLandingPagesAdapter implements LandingPageService {
     return this.pages.find(p => p.tripId === tripId) || null;
   }
 
-  async getLandingPageBySlugs(businessSlug: string, tripSlug: string): Promise<{ theme: any; content: any; trip: any; businessName: string } | null> {
+  async getLandingPageBySlugs(businessSlug: string, tripSlug: string, preview: boolean = false): Promise<{ theme: any; content: any; trip: any; businessName: string } | null> {
     const trip = await tripsService.getTripBySlug(tripSlug);
     if (!trip) return null;
     
     // In a real app we'd also check if the business slug matches
     // But for mock we just construct a response
     const page = await this.getForTrip(trip.id);
-    if (!page || page.status !== 'published') return null;
+    if (!page) return null;
+
+    if (!preview && page.status !== 'published') return null;
+    if (preview && page.status !== 'ready' && page.status !== 'published') return null;
 
     // mock theme and content
-    const theme = { primaryColor: '#2A8AF6' };
+    const theme = page.theme || { layout: 'modern', primaryColor: '#2A8AF6' };
     const content = { heroImage: trip.media?.find(m => m.isHero)?.url || null };
 
     return {
@@ -165,6 +168,15 @@ class MockLandingPagesAdapter implements LandingPageService {
 
   async regenerate(tripId: string): Promise<GenerationJob> {
     return this.generate(tripId);
+  }
+
+  async updateTheme(landingPageId: string, theme: import('@/types/landing-page').LandingPageTheme): Promise<LandingPage> {
+    const page = this.pages.find(p => p.id === landingPageId);
+    if (!page) throw new Error('Not found');
+    page.theme = theme;
+    page.updatedAt = new Date().toISOString();
+    this.notifyPage(page.tripId);
+    return page;
   }
 
   subscribeToLandingPage(tripId: string, cb: (lp: LandingPage | null) => void): () => void {
