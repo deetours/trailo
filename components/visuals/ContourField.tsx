@@ -1,3 +1,7 @@
+'use client';
+
+'use client';
+
 import { cn } from '@/lib/cn';
 import { useRef } from 'react';
 import { gsap, useGSAP } from '@/lib/gsap';
