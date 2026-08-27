@@ -40,8 +40,8 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       ref={lenisRef}
       root
       options={{
-        lerp: 0.05,
-        duration: 1.5,
+        lerp: 0.08,
+        duration: 1.2,
         smoothWheel: true,
         autoResize: true // important for ScrollTrigger
       }}

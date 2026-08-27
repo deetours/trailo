@@ -1,4 +1,6 @@
 import { cn } from '@/lib/cn';
+import { useRef } from 'react';
+import { gsap, useGSAP } from '@/lib/gsap';
 
 interface ContourFieldProps {
   className?: string;
@@ -11,16 +13,40 @@ export default function ContourField({
   tone = 'neutral',
   density = 'high'
 }: ContourFieldProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  
   const strokeColor = tone === 'accent' ? 'var(--accent)' : 'var(--muted-foreground)';
   const opacity = tone === 'accent' ? 0.16 : 0.1;
 
+  useGSAP(() => {
+    const ctx = gsap.matchMedia();
+    
+    ctx.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+      gsap.to(svgRef.current, {
+        yPercent: 15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        }
+      });
+    });
+    
+    return () => ctx.revert();
+  }, { scope: containerRef });
+
   return (
     <div 
+      ref={containerRef}
       className={cn('absolute inset-0 -z-10 overflow-hidden pointer-events-none', className)}
       aria-hidden="true"
     >
       <svg
-        className="absolute w-full h-full"
+        ref={svgRef}
+        className="absolute w-full h-full scale-110 -top-[5%] -left-[5%]"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
         style={{ opacity }}

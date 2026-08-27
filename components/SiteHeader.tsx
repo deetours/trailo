@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -8,12 +8,22 @@ import { Menu, X } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 import Logo from './Logo';
 import { useReducedMotion } from '@/components/motion/useReducedMotion';
+import { cn } from '@/lib/cn';
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const reduceMotion = useReducedMotion();
   const pathname = usePathname();
   const platformHref = pathname === '/' ? '#platform' : '/#platform';
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 60);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { href: '/pricing', label: 'Pricing' },
@@ -22,9 +32,16 @@ export default function SiteHeader() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-
+    <header 
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out border-b",
+        isScrolled 
+          ? "bg-background/80 backdrop-blur-md border-border py-0" 
+          : "bg-transparent border-transparent py-4"
+      )}
+    >
+      <div className={cn("container mx-auto px-6 flex items-center justify-between transition-all duration-300 ease-in-out", isScrolled ? "h-16" : "h-20")}>
+        
         {/* Logo */}
         <Link href="/" className="group" onClick={() => setOpen(false)}>
           <Logo className="text-foreground group-hover:text-muted-foreground transition-colors" markClassName="w-6 h-6" />

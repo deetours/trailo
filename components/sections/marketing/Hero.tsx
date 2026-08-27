@@ -45,6 +45,18 @@ export default function Hero() {
         filter: 'blur(10px)',
         ease: EASE.inOut,
       });
+
+      // subtle image parallax
+      gsap.to('.hero-parallax-image', {
+        scrollTrigger: {
+          trigger: container.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+        yPercent: 15,
+        ease: 'none',
+      });
     });
 
     return () => ctx.revert();
@@ -91,13 +103,13 @@ export default function Hero() {
         <div className="hidden xl:block relative z-10 rotate-3 xl:w-135 xl:translate-x-10">
           <ProductFrame url="t/apex/annapurna-circuit">
             <div className="w-full aspect-4/5 bg-card flex flex-col">
-              <div className="relative h-48 w-full shrink-0">
+              <div className="relative h-48 w-full shrink-0 overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1520696773539-71285223c683?auto=format&fit=crop&q=80"
                   alt="Annapurna Circuit Trek route through the Himalayas"
                   fill
                   sizes="500px"
-                  className="object-cover"
+                  className="object-cover hero-parallax-image scale-110 -top-[5%]"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-card via-transparent to-transparent" />
               </div>
